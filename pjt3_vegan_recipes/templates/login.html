@@ -51,21 +51,23 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <form action="#" class="contact-form">
+                    <form name="authlogin" class="contact-form auth-form" action="" method="post">{% csrf_token %}
                         <h3>Welcome!</h3>
                         <div class="row">
-                            <div class="col-lg-3">
-                            </div>
+                            <div class="col-lg-3"></div>
                             <div class="col-sm-12 col-lg-6">
-                                <input type="text" placeholder="Username">
-                                <input type="text" placeholder="Password">
+                                   {{ form }}
                             </div>
-                            <div class="col-lg-3">
-                            </div>
+                            <div class="col-lg-3"></div>
                         </div>
-                        <button type="submit">Log in</button>
-                        <button type="submit">Sign up</button>
+                        <button value="로그인" type="submit">Log in</button>
+                        <button value="회원가입" onclick="location.href='/signup/'" type="">Sign up</button>
                     </form>
+{#                    <form method="post" action="">#}
+{#                        {% csrf_token %}#}
+{#                        {{ form.as_p }}#}
+{#                        <input type="submit" value="로그인" />#}
+{#                    </form>#}
                 </div>
             </div>
         </div>
@@ -96,7 +98,7 @@
         </div>
     </footer>
     <!-- Footer Section End -->
-    
+
     <!-- Js Plugins -->
     <script src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>

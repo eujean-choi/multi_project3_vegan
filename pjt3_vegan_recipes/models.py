@@ -7,7 +7,6 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
@@ -196,11 +195,12 @@ class RecipeIngredient(models.Model):
         managed = False
         db_table = 'recipe_ingredient'
 
-
 class UserInfo(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=30, blank=True, null=True)
-    user_pw = models.CharField(max_length=30, blank=True, null=True)
+    user_pw = models.CharField(
+        max_length=30, blank=True, null=True,
+    )
     email = models.CharField(max_length=50, blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=3, blank=True, null=True)
