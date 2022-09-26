@@ -83,6 +83,37 @@ def main(request):
     category_4 = Recipe.objects.get(recipe_id=c4_id)
 
 
+    # youtube
+    url = 'https://www.youtube.com/results?search_query=vegan+recipe&sp=CAMSBAgCEAE%253D'
+
+    options = Options()
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+
+    # service = Service('/home/ubuntu/Jupyter/chromedriver')
+    service = Service('C:\workspaces\workspace_project\pjt3_vegan_recipes\pjt3_vegan_recipes\source\chromedriver.exe')
+    driver = webdriver.Chrome(service=service, options=options)
+    driver.get(url)
+    sleep(2)
+
+    v_list = list()
+    for i in range(10):
+        v_path = '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[' + str(
+            i + 1) + ']/div[1]/ytd-thumbnail/a'
+        v_list.append(driver.find_element(By.XPATH, v_path).get_attribute("href"))
+
+    ran_vid = random.choice(v_list)
+
+    if "shorts" not in ran_vid:
+        today_vid = ran_vid.replace('/watch?v=', '/embed/')
+    else:
+        today_vid = ran_vid.replace('shorts', 'embed')
+
+    return render(request, 'main.html', {'category_1': category_1, 'category_2': category_2, 'category_3': category_3,
+                                         'category_4': category_4, 'today_yt': today_vid})
+
+
     return render(request, 'main.html', {'category_1': category_1, 'category_2': category_2, 'category_3': category_3, 'category_4': category_4})
 
 class MainLoginView(LoginRequiredMixin, TemplateView):
@@ -443,10 +474,17 @@ def Recommend_by_CBF(request):
     for i in range(len(recommended_recipe)):
         globals()['recipe_{}'.format(i+1)]=dict(zip(list(recommended_recipe.columns),tuple(recommended_recipe.iloc[i])))
 
+
         #카테고리명을 category 지역구분과 재료 구분으로 분리함
         globals()['recipe_{}'.format(i+1)]['category_region']=globals()['recipe_{}'.format(i+1)]['category'].split('<')[0].strip()
         try:
             globals()['recipe_{}'.format(i+1)]['category_integredients']=globals()['recipe_{}'.format(i+1)]['category'].split('<')[1].split(':')[1].replace('>','').strip()
+
+        # 카테고리명을 category 지역구분과 재료 구분으로 분리함
+        globals()['recipe_{}'.format(i + 1)]['category_region'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
+        try:
+            globals()['recipe_{}'.format(i + 1)]['category_integredients'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
+
         except:
             globals()['recipe_{}'.format(i+1)]['category_integredients']= None
 

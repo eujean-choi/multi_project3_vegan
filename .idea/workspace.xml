@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8df0ee2d-1c9a-412c-90bc-5a711c912621" name="Changes" comment="checked">
-      <change afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/source/chromedriver.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/daliy_recipe_video.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/daliy_recipe_video.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/templates/main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -103,6 +99,7 @@
       <workItem from="1664252292054" duration="24000" />
       <workItem from="1664252327929" duration="70000" />
       <workItem from="1664252411106" duration="20000" />
+      <workItem from="1664252445437" duration="47000" />
     </task>
     <servers />
   </component>
