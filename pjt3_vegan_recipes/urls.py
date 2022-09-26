@@ -25,6 +25,7 @@ urlpatterns = [
     path('recipe/', views.recipe, name='recipe'),
     path('signup/', views.signup, name='signup'),
     path('signup_info/', views.signup_info, name='signup_info'),
+    path('signup_recipe/', views.signup_recipe, name='signup_recipe'),
     #path('signup_2/', views.signup_2, name='signup_2'),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),

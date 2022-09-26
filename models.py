@@ -5,8 +5,8 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-from django.conf import settings
 from django.db import models
+
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -148,12 +148,23 @@ class IngredientPrice(models.Model):
 class PinnedRecipe(models.Model):
     pin_id = models.AutoField(primary_key=True)
     user_id = models.IntegerField(blank=True, null=True)
-    recipe_id = models.IntegerField(blank=True, null=True)
-    timestamp = models.DateTimeField()
+    recipe = models.ForeignKey('Recipe', models.DO_NOTHING, blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'pinned_recipe'
+
+
+class Rating(models.Model):
+    rating_id = models.AutoField(primary_key=True)
+    user_id = models.IntegerField(blank=True, null=True)
+    selected_recipe_name = models.CharField(max_length=200, blank=True, null=True)
+    stars = models.CharField(max_length=5, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'rating'
 
 
 class Recipe(models.Model):
@@ -162,9 +173,9 @@ class Recipe(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     image = models.CharField(max_length=300, blank=True, null=True)
     time = models.CharField(max_length=100, blank=True, null=True)
-    serving = models.CharField(max_length=20, blank=True, null=True)
+    serving = models.CharField(max_length=100, blank=True, null=True)
     calories = models.CharField(max_length=20, blank=True, null=True)
-    carb = models.CharField(max_length=20, blank=True, null=True)
+    carbs = models.CharField(max_length=20, blank=True, null=True)
     protein = models.CharField(max_length=20, blank=True, null=True)
     total_fat = models.CharField(max_length=20, blank=True, null=True)
     recipe = models.TextField(blank=True, null=True)
@@ -174,17 +185,6 @@ class Recipe(models.Model):
     class Meta:
         managed = False
         db_table = 'recipe'
-
-class Rating(models.Model):
-    rating_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    recipe_id = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    rating = models.IntegerField(blank=True, null=True)
-    timestamp = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'rating'
 
 
 class RecipeIngredient(models.Model):
@@ -196,12 +196,11 @@ class RecipeIngredient(models.Model):
         managed = False
         db_table = 'recipe_ingredient'
 
+
 class UserInfo(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=30, blank=True, null=True)
-    user_pw = models.CharField(
-        max_length=30, blank=True, null=True,
-    )
+    user_pw = models.CharField(max_length=30, blank=True, null=True)
     email = models.CharField(max_length=50, blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=3, blank=True, null=True)
