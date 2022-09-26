@@ -6,6 +6,56 @@
   <component name="ChangeListManager">
     <list default="true" id="8df0ee2d-1c9a-412c-90bc-5a711c912621" name="Changes" comment="checked">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/CBF_Model" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/CBF_Model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_100_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_100_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_120_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_120_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_123_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_123_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_125_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_125_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_1329_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_1329_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_150_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_150_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_200_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_200_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_205_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_205_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_217_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_217_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_220_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_220_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_224_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_224_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_225_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_225_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_230_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_230_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_240_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_240_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_250_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_250_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_300_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_300_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_315_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_315_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_317_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_317_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_325_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_325_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_327_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_327_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_350_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_350_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_400_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_400_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_403_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_403_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_4052_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_4052_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_427_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_427_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_437_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_437_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_450_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_450_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_500_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_500_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_50_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_50_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_600_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_600_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_657_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_657_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_700_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_700_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_Recommender/User_ID_978_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/User_ID_978_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_RecommenderUser_ID_150_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_RecommenderUser_ID_150_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_RecommenderUser_ID_324_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_RecommenderUser_ID_324_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CBF_RecommenderUser_ID_419_CBF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_RecommenderUser_ID_419_CBF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CF_Recommender/User_ID_127_CF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CF_Recommender/User_ID_127_CF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CF_Recommender/User_ID_129_CF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CF_Recommender/User_ID_129_CF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CF_Recommender/User_ID_240_CF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CF_Recommender/User_ID_240_CF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CF_Recommender/User_ID_324_CF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CF_Recommender/User_ID_324_CF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CF_Recommender/User_ID_327_CF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CF_Recommender/User_ID_327_CF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CF_Recommender/User_ID_340_CF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CF_Recommender/User_ID_340_CF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/CF_Recommender/User_ID_350_CF_results.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CF_Recommender/User_ID_350_CF_results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/Clustering/Preprocessed_Recipes.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/Clustering/Preprocessed_Recipes.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Output/Clustering/main_keywords.json" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/Clustering/main_keywords.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/Recommender_Systems.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/recommender_systems.py" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/recommender_systems.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -100,6 +150,9 @@
       <workItem from="1664252327929" duration="70000" />
       <workItem from="1664252411106" duration="20000" />
       <workItem from="1664252445437" duration="47000" />
+      <workItem from="1664252514912" duration="39000" />
+      <workItem from="1664252591666" duration="80000" />
+      <workItem from="1664252683409" duration="53000" />
     </task>
     <servers />
   </component>
