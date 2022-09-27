@@ -15,7 +15,7 @@ from django.views.generic import CreateView, TemplateView
 from django.shortcuts import render, redirect
 from .models import *
 from datetime import datetime, timedelta
-from .Recommender_Systems import *
+from Recommender_Systems import *
 import random
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.db.models import Q
