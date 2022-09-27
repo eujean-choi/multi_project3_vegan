@@ -3,7 +3,8 @@
 from django.http import HttpResponse
 
 BASE_DIR = '/Users/wooseongkyun/코드_아카이브/멀캠_프로젝트들/multi_project3_vegan/pjt3_vegan_recipes'
-
+import sys
+sys.path.append(BASE_DIR)
 
 #%%
 from django.conf import settings
@@ -43,14 +44,13 @@ from time import sleep
 import random
 
 from .models import *
-from Recommender_Systems import *
+from Recommender_Systems import  *
 
 #%%
 
 # 로그인 전 메인
 # 장고가 상대경로 잡는데 어려움이 있어 각자 pjt3_vegan_recipes 폴더 위치를 BASE_DIR로 넣어주세요
 # BASE_DIR + '그 이후 접근하고자 하는 파일의 경로'로 경로형식을 작성하였습니다
-BASE_DIR = 'C:\workspaces\workspace_project\pjt3_vegan_recipes\pjt3_vegan_recipes'
 
 
 def main(request):
@@ -98,7 +98,7 @@ def main(request):
     options.add_argument('--disable-dev-shm-usage')
 
     # service = Service('/home/ubuntu/Jupyter/chromedriver')
-    service = Service('C:\workspaces\workspace_project\pjt3_vegan_recipes\pjt3_vegan_recipes\source\chromedriver.exe')
+    service = Service(BASE_DIR+'/source/chromedriver_m1_mac')
     driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
     sleep(2)
@@ -110,6 +110,7 @@ def main(request):
         v_list.append(driver.find_element(By.XPATH, v_path).get_attribute("href"))
 
     ran_vid = random.choice(v_list)
+
 
     if "shorts" not in ran_vid:
         today_vid = ran_vid.replace('/watch?v=', '/embed/')
@@ -162,7 +163,7 @@ def signup_recipe(request):
     options.add_argument('--disable-dev-shm-usage')
 
     # service = Service('/home/ubuntu/Jupyter/chromedriver')
-    service = Service('C:\workspaces\workspace_project\pjt3_vegan_recipes\pjt3_vegan_recipes\source\chromedriver.exe')
+    service = Service(BASE_DIR+'/source/chromedriver_m1_mac')
     driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
     sleep(2)
@@ -215,7 +216,6 @@ def login(request):
 
 
 
-def recipe(request, id):
 
 def recipe(request, id):
     recipe_one = Recipe.objects.get(recipe_id=id)
@@ -469,20 +469,8 @@ def recommend_by_CBF(request):
     recommended_recipe = Make_Recommended_RecipeData(user_id=USER_ID, Recommender=CBF)
 
 
-    # title= recommended_recipe['title'].tolist()
-    # recipe_id= recommended_recipe['recipe_id'].tolist()
-    # image= recommended_recipe['image'].tolist()
-    # category= recommended_recipe['category'].tolist()
-    # protein= recommended_recipe['protein'].tolist()
-    # calories= recommended_recipe['calories'].tolist()
     for i in range(len(recommended_recipe)):
         globals()['recipe_{}'.format(i+1)]=dict(zip(list(recommended_recipe.columns),tuple(recommended_recipe.iloc[i])))
-
-
-        #카테고리명을 category 지역구분과 재료 구분으로 분리함
-        globals()['recipe_{}'.format(i+1)]['category_region']=globals()['recipe_{}'.format(i+1)]['category'].split('<')[0].strip()
-        try:
-            globals()['recipe_{}'.format(i+1)]['category_integredients']=globals()['recipe_{}'.format(i+1)]['category'].split('<')[1].split(':')[1].replace('>','').strip()
 
         # 카테고리명을 category 지역구분과 재료 구분으로 분리함
         globals()['recipe_{}'.format(i + 1)]['category_region'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()

@@ -956,7 +956,8 @@ def Make_CF_model():
 #%% 5. 추천된 레시피명을 활용하여 레시피 데이터와 매칭시키기
 def Make_Recommended_RecipeData(user_id,Recommender):
     Recommender(user_id)
-    Recommender_df= pd.read_json('./Output/'+f'{Recommender.__name__}_Recommender'+'/User_ID_'+str(user_id)+f'_{Recommender.__name__}_results.json')
+    Recommender_df= pd.read_json(BASE_DIR+'/Output/'+f'{Recommender.__name__}_Recommender'+'/User_ID_'+str(user_id)+f''
+                                                                                                            f'_{Recommender.__name__}_results.json')
     recommended_recipe = list(Recommender_df['recommended_recipe'])
 
     recipes= Download_Recipes()
