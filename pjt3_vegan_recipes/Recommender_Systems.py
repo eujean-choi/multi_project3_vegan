@@ -97,6 +97,8 @@ num_dummy_user = 20000
 # 더미 레시피 수
 num_dummy_recipe = 200
 
+#추천되는 레시피 수
+top_n=20
 
 # %%
 # 1.클러스터링
@@ -522,7 +524,7 @@ def Make_Clusters():
 
     for i in range(len(tokened_df)):
         if i in indian_index:
-            cluster_lst.append('1.India+Spain+South America+South Asia <Main ingredients: '
+            cluster_lst.append('1.India+South America+South Asia <Main ingredients: '
                                'cumin/coriander/cilantro/lime/avocado/onion>')
         elif i in asian_index:
             cluster_lst.append('2.East Asia <Main ingredients: rice/soy/sesame/tofu>')
@@ -704,7 +706,7 @@ def CBF(User_ID, model_loc=BASE_DIR+'/Output/CBF_Recommender/CBF_Model'):
         # 모델 불러오기
         model = doc2vec.Doc2Vec.load(model_loc)
         # 임베딩 벡터 평균치로써 유저가 가장 좋아할만한 레시피 10개를 추천한다
-        recommend_result = model.dv.most_similar(user_rating_lst, topn=10)
+        recommend_result = model.dv.most_similar(user_rating_lst, topn=top_n)
 
         # 이때 데이터는 (레시피명,유사도) 튜플 형태로 반환된다
         # 추천된 레시피와 유사도 점수를 분리해서 담기
@@ -787,7 +789,7 @@ def RMSE(y_true, y_pred):
 
 # %% 4-R1 협업 필터링 적용
 # 특정 유저의 좋아요 기록을 불러오기
-def CF(user_id, model_loc=BASE_DIR+"/Output/CF_Recommender/CF_Model.h5", top_n=10):
+def CF(user_id, model_loc=BASE_DIR+"/Output/CF_Recommender/CF_Model.h5"):
     def RMSE(y_true, y_pred):
         return tf.sqrt(tf.reduce_mean(tf.square(y_true - y_pred)))
 
@@ -806,7 +808,6 @@ def CF(user_id, model_loc=BASE_DIR+"/Output/CF_Recommender/CF_Model.h5", top_n=1
     user_rating_lst = [selected_recipes_dict[name] for name in user_rating_name]
 
     # 모델 불러오기
-    top_n = 10
     model = tf.keras.models.load_model(filepath=model_loc, custom_objects={'RMSE': RMSE})
 
     # 이미 평점을 메긴 정보를 제외하는 함수 불러오기
@@ -912,7 +913,8 @@ def Make_CF_model():
 #%% 5. 추천된 레시피명을 활용하여 레시피 데이터와 매칭시키기
 def Make_Recommended_RecipeData(user_id,Recommender):
     Recommender(user_id)
-    Recommender_df= pd.read_json(BASE_DIR+'/Output/'+f'{Recommender.__name__}_Recommender'+'/User_ID_'+str(user_id)+f''                                                                            f'_{Recommender.__name__}_results.json')
+    Recommender_df= pd.read_json(BASE_DIR+'/Output/'+f'{Recommender.__name__}_Recommender'+'/User_ID_'+str(user_id)+f''
+                                                                                                            f'_{Recommender.__name__}_results.json')
     recommended_recipe = list(Recommender_df['recommended_recipe'])
 
     recipes= Download_Recipes()
