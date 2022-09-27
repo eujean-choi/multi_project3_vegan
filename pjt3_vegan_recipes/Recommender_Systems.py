@@ -824,7 +824,7 @@ def RMSE(y_true, y_pred):
 
 # %% 4-R1 협업 필터링 적용
 # 특정 유저의 좋아요 기록을 불러오기
-def CF(user_id, model_loc=BASE_DIR+"/Output/CF_Recommender/CF_Model.h5"):
+def CF(User_ID, model_loc=BASE_DIR+"/Output/CF_Recommender/CF_Model.h5"):
     def RMSE(y_true, y_pred):
         return tf.sqrt(tf.reduce_mean(tf.square(y_true - y_pred)))
 
@@ -836,7 +836,7 @@ def CF(user_id, model_loc=BASE_DIR+"/Output/CF_Recommender/CF_Model.h5"):
 
     # 유저들의 평가 데이터 불러오기
     # 그중 4점 이상 평가한 것으로 추린다
-    user_rating_name = ratings[ratings['user_id'] == user_id]
+    user_rating_name = ratings[ratings['user_id'] == User_ID]
     user_rating_name['stars'] = user_rating_name['stars'].apply(lambda x: int(x))
     user_rating_name = user_rating_name[user_rating_name['stars'] >= 4]
     user_rating_name = user_rating_name['selected_recipe_name']
@@ -846,7 +846,7 @@ def CF(user_id, model_loc=BASE_DIR+"/Output/CF_Recommender/CF_Model.h5"):
     model = tf.keras.models.load_model(filepath=model_loc, custom_objects={'RMSE': RMSE})
 
     # 이미 평점을 메긴 정보를 제외하는 함수 불러오기
-    unseen_recipes = CF2_get_unseen_recipes(user_id)
+    unseen_recipes = CF2_get_unseen_recipes(User_ID)
 
     # mu값을 구하기 위한 계산
     ratings_train, ratings_test = CF1_spliting_train_test(ratings)
@@ -854,7 +854,7 @@ def CF(user_id, model_loc=BASE_DIR+"/Output/CF_Recommender/CF_Model.h5"):
 
     # 레시피와 사용자 정보 배열로 만듬
     tmp_recipe_data = np.array(list(unseen_recipes))
-    tmp_user = np.array([user_id for i in range(len(tmp_recipe_data))])
+    tmp_user = np.array([User_ID for i in range(len(tmp_recipe_data))])
 
     # predict() list 객체로 저장
     predictions = model.predict([tmp_user, tmp_recipe_data])
@@ -872,7 +872,7 @@ def CF(user_id, model_loc=BASE_DIR+"/Output/CF_Recommender/CF_Model.h5"):
     CF_df = pd.DataFrame([recommend_result, user_rating_name],
                          index=['recommended_recipe', 'user_preferred_recipe']).T
 
-    CF_df.to_json(BASE_DIR+'/Output/CF_Recommender/' + 'User_ID_' + str(user_id) + '_CF_results.json')
+    CF_df.to_json(BASE_DIR+'/Output/CF_Recommender/' + 'User_ID_' + str(User_ID) + '_CF_results.json')
 
 
 # %% 4-R2. 딥러닝 모델 설계 및 학습 & 저장
@@ -952,12 +952,10 @@ def Make_CF_model():
     filepath = BASE_DIR+"/Output/CF_Recommender/CF_Model.h5"
     model.save(filepath)
     print('CF 모델이 업데이트 완료되었습니다')
-
-#%% 5. 추천된 레시피명을 활용하여 레시피 데이터와 매칭시키기
-def Make_Recommended_RecipeData(user_id,Recommender):
-    Recommender(user_id)
-    Recommender_df= pd.read_json(BASE_DIR+'/Output/'+f'{Recommender.__name__}_Recommender'+'/User_ID_'+str(user_id)+f''
-                                                                                                            f'_{Recommender.__name__}_results.json')
+#%%
+def Recommended_RecipeData_by_CBF(user_id):
+    CBF(User_ID=user_id)
+    Recommender_df= pd.read_json(BASE_DIR+'/Output/CBF_Recommender/'+'User_ID_'+str(user_id)+'_CBF_results.json')
     recommended_recipe = list(Recommender_df['recommended_recipe'])
 
     recipes= Download_Recipes()
@@ -969,5 +967,40 @@ def Make_Recommended_RecipeData(user_id,Recommender):
 
     return matched_recipes
 
+#%%
+def Recommended_RecipeData_by_CF(user_id):
+
+    CF(User_ID=user_id)
+    Recommender_df= pd.read_json(BASE_DIR+'/Output/CF_Recommender/' + 'User_ID_' + str(user_id) + '_CF_results.json')
+    recommended_recipe = list(Recommender_df['recommended_recipe'])
+
+
+    recipes= Download_Recipes()
+    matched_recipes=pd.DataFrame()
+
+    for recipe in recommended_recipe:
+        matched_df=recipes[recipes['title']==recipe]
+        matched_recipes=pd.concat([matched_recipes,matched_df])
+    matched_recipes.drop_duplicates(['title'],inplace=True)
+
+    return matched_recipes
+
 # %% 폐기 장소
 # 혹 몰라 일단 여기 둠. 서버에 올릴땐 삭제해도 상관없을 듯
+
+#%%
+# #%% 5. 추천된 레시피명을 활용하여 레시피 데이터와 매칭시키기
+# def Make_Recommended_RecipeData(user_id,Recommender):
+#     Recommender(user_id)
+#     Recommender_df= pd.read_json(BASE_DIR+'/Output/'+f'{Recommender.__name__}_Recommender'+'/User_ID_'+str(user_id)+
+#                                  f'_{Recommender.__name__}_results.json')
+#     recommended_recipe = list(Recommender_df['recommended_recipe'])
+#
+#     recipes= Download_Recipes()
+#     matched_recipes=pd.DataFrame()
+#     for recipe in recommended_recipe:
+#         matched_df=recipes[recipes['title']==recipe]
+#         matched_recipes=pd.concat([matched_recipes,matched_df])
+#     matched_recipes.drop_duplicates(['title'],inplace=True)
+#
+#     return matched_recipes
