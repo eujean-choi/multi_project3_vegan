@@ -43,9 +43,9 @@ from time import sleep
 import random
 
 from .models import *
-from .recommender_systems import *
+from Recommender_Systems import *
 
-
+#%%
 
 # 로그인 전 메인
 # 장고가 상대경로 잡는데 어려움이 있어 각자 pjt3_vegan_recipes 폴더 위치를 BASE_DIR로 넣어주세요
