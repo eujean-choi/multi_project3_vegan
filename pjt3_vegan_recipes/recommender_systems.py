@@ -790,9 +790,8 @@ def RMSE(y_true, y_pred):
 # %% 4-R1 협업 필터링 적용
 # 특정 유저의 좋아요 기록을 불러오기
 
-def CF(user_id, model_loc=BASE_DIR+"/output/CF_Recommender/CF_Model.h5", top_n=10):
-    def RMSE(y_true, y_pred):
-        return tf.sqrt(tf.reduce_mean(tf.square(y_true - y_pred)))
+def CF(user_id, model_loc=BASE_DIR+"/Output/CF_Recommender/CF_Model.h5"):
+
 
     # 200개로 추려진 요리 목록을 딕셔너리 형태로 담기
     ratings = pd.read_json(BASE_DIR+'/output/User_Dummy_data')
