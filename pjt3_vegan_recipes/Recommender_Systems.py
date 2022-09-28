@@ -1066,7 +1066,7 @@ def Filtered_RecipeData_by_CF(User_ID):
 #
 #     recipes= Download_Recipes()
 #     matched_recipes=pd.DataFrame()
-#     for recipe in recommended_recipe:
+#     for recipe in recommended_recipe:x
 #         matched_df=recipes[recipes['title']==recipe]
 #         matched_recipes=pd.concat([matched_recipes,matched_df])
 #     matched_recipes.drop_duplicates(['title'],inplace=True)

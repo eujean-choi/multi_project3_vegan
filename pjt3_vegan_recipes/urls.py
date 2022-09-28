@@ -45,4 +45,5 @@ urlpatterns = [
     path('Update_CF/', views.Update_CF, name='Update_CF'),
     path('Make_Dummy/', views.make_dummy, name='Make_Dummy'),
     path('Recommend_by_algorithm/', views.Recommend_by_algorithm, name='Recommend_by_algorithm'),
+    path('Filtered_Recommend/', views.Filtered_Recommend, name='Filtered_Recommend'),
 ]

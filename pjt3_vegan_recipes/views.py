@@ -550,8 +550,71 @@ def Recommend_by_algorithm(request):
     return render(request, 'main_login.html', {'recipe_lists':recipe_lists, 'recipe_lists2':recipe_lists2})
 
 
-
 #%%
+def Filtered_Recommend(request):
+    User_ID=230
+    Recipes = None
+    query = None
+
+    if 'q' in request.GET:
+        query = request.GET.get('q')
+        # __icontains : 대소문자 구분없이 필드값에 해당 query가 있는지 확인 가능
+        Recipes = Recipe.objects.all().filter(Q(title__icontains=query) | Q(ingredients__icontains=query))
+
+    Users_Filter= pd.DataFrame(list(Recipes))
+    paginator = Paginator(Recipes, 12)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        Recipes = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        Recipes = paginator.page(paginator.num_pages)
+
+    # save Recipe_df to json file
+    Users_Filter.to_json(BASE_DIR+'/Output/Users_Filter.json')
+
+    # Recommend by filtered algorithm
+    def Recommend_by_filtered_algorithm(request,User_ID):
+        Recommended_Recipe_CBF= Filtered_RecipeData_by_CBF(User_ID)
+        Recommended_Recipe_CF= Filtered_RecipeData_by_CF(User_ID)
+
+        for i in range(len(Recommended_Recipe_CBF)):
+            globals()['recipe_{}'.format(i+1)]=dict(zip(list(Recommended_Recipe_CBF.columns),tuple(Recommended_Recipe_CBF.iloc[i])))
+
+            # 카테고리명을 category 지역구분과 재료 구분으로 분리함
+            globals()['recipe_{}'.format(i + 1)]['category_region'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
+            try:
+                globals()['recipe_{}'.format(i + 1)]['category_integredients'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
+            except:
+                globals()['recipe_{}'.format(i + 1)]['category_integredients'] = None
+
+        recipe_lists=[]
+        for i in range(len(Recommended_Recipe_CBF)):
+            recipe_lists.append(globals()['recipe_{}'.format(i+1)])
+
+        for i in range(len(Recommended_Recipe_CF)):
+            globals()['recipe_{}'.format(i+1)]=dict(zip(list(Recommended_Recipe_CF.columns),tuple(Recommended_Recipe_CF.iloc[i])))
+
+            # 카테고리명을 category 지역구분과 재료 구분으로 분리함
+            globals()['recipe_{}'.format(i + 1)]['category_region'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
+            try:
+                globals()['recipe_{}'.format(i + 1)]['category_integredients'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
+            except:
+                globals()['recipe_{}'.format(i + 1)]['category_integredients'] = None
+
+        recipe_lists2=[]
+        for i in range(len(Recommended_Recipe_CF)):
+            recipe_lists2.append(globals()['recipe_{}'.format(i+1)])
+
+        return recipe_lists,recipe_lists2
+    recipe_lists,recipe_lists2 = Recommend_by_filtered_algorithm(request,User_ID)
+
+
+
+    return render(request, 'main_login.html', {'recipe_lists':recipe_lists, 'recipe_lists2':recipe_lists2})
+
 
 
 
