@@ -335,7 +335,7 @@ def search_result_q(request):
         # __icontains : 대소문자 구분없이 필드값에 해당 query가 있는지 확인 가능
         Recipes = Recipe.objects.all().filter(Q(title__icontains=query) | Q(ingredients__icontains=query))
 
-    Recipesdf= pd.DataFrame(list(Recipes))
+    Users_Filter= pd.DataFrame(list(Recipes))
     paginator = Paginator(Recipes, 12)
     try:
         page = int(request.GET.get('page', '1'))
@@ -346,7 +346,9 @@ def search_result_q(request):
     except(EmptyPage, InvalidPage):
         Recipes = paginator.page(paginator.num_pages)
 
-    print(Recipesdf)
+    # save Recipe_df to json file
+    print(Users_Filter)
+    Users_Filter.to_json(BASE_DIR+'/Output/Users_Filter.json')
 
     return render(request, 'search_result_q.html', {'query': query, 'Recipes': Recipes})
 
@@ -550,19 +552,9 @@ def Recommend_by_algorithm(request):
 
 
 #%%
-#
-# def Recommend_by_CF(request):
-#     import time
-#     USER_ID = 230
-#     recommended_recipe = Make_Recommended_RecipeData(user_id=USER_ID, Recommender=CF)
-#     recipe_lists2=[]
-#     sleep(3)
-#     for i in range(len(recommended_recipe)):
-#         globals()['recipe_{}'.format(i+1)]=dict(zip(list(recommended_recipe.columns),tuple(recommended_recipe.iloc[i])))
-#         recipe_lists2.append(globals()['recipe_{}'.format(i+1)])
-#
-#     return render(request, 'main_login.html', {'recipe_lists2':recipe_lists2})
-#
-# #%%
+
+
+
+
 #%%
 

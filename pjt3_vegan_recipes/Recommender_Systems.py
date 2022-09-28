@@ -985,6 +985,74 @@ def Recommended_RecipeData_by_CF(user_id):
 
     return matched_recipes
 
+#%% 5. 필터링된 추천 알고리즘
+
+#%%
+def Get_FilterData():
+    # 인덱스가 숫자임에도 문자열로 인식되어 순서가 엉망이길래 정렬해줌
+    def str2int(x):
+        try:
+            x= int(x)
+            return x
+        except:
+            return x
+
+    Recipes_df= pd.read_json(BASE_DIR+'/Output/Users_Filter.json')
+    Recipes_df.reset_index(inplace=True)
+    Recipes_df['index']= Recipes_df['index'].apply(lambda x: str2int(x))
+    Recipes_df.sort_values(by='index',inplace=True)
+    Recipes_df.set_index('index',inplace=True)
+
+    title_lst=[]
+    for i in range(len(Recipes_df)):
+        title_lst.append(Recipes_df.loc[i][0]['title'])
+
+    return title_lst
+
+# 두 리스트의 교집합을 구하는 함수
+def difference_set(a, b):
+    return list(set(a)-(set(b)))
+
+def Filtered_CBF(User_ID):
+    filter_lst= Get_FilterData()
+    CBF(User_ID)
+    CBF_df= pd.read_json(BASE_DIR+'/Output/CBF_Recommender/'+'User_ID_'+str(User_ID)+'_CBF_results.json')
+    filtered_result =difference_set(CBF_df['recommended_recipe'].tolist(),filter_lst)
+
+    return filtered_result
+
+def Filtered_CF(User_ID):
+    filter_lst= Get_FilterData()
+    CF(User_ID)
+    CF_df= pd.read_json(BASE_DIR+'/Output/CF_Recommender/'+'User_ID_'+str(User_ID)+'_CF_results.json')
+    filtered_result =difference_set(CF_df['recommended_recipe'].tolist(),filter_lst)
+
+    return filtered_result
+
+def Filtered_RecipeData_by_CBF(User_ID):
+    recipes= Download_Recipes()
+    filtered_result= Filtered_CBF(User_ID)
+
+    matched_recipes=pd.DataFrame()
+    for recipe in filtered_result:
+        matched_df=recipes[recipes['title']==recipe]
+        matched_recipes=pd.concat([matched_recipes,matched_df])
+    matched_recipes.drop_duplicates(['title'],inplace=True)
+    return matched_recipes
+
+def Filtered_RecipeData_by_CF(User_ID):
+    recipes= Download_Recipes()
+    filtered_result= Filtered_CF(User_ID)
+
+    matched_recipes=pd.DataFrame()
+    for recipe in filtered_result:
+        matched_df=recipes[recipes['title']==recipe]
+        matched_recipes=pd.concat([matched_recipes,matched_df])
+    matched_recipes.drop_duplicates(['title'],inplace=True)
+    return matched_recipes
+
+
+
 # %% 폐기 장소
 # 혹 몰라 일단 여기 둠. 서버에 올릴땐 삭제해도 상관없을 듯
 
@@ -1002,5 +1070,24 @@ def Recommended_RecipeData_by_CF(user_id):
 #         matched_df=recipes[recipes['title']==recipe]
 #         matched_recipes=pd.concat([matched_recipes,matched_df])
 #     matched_recipes.drop_duplicates(['title'],inplace=True)
+#
+#     return matched_recipes
+
+#%%5. 필터링된 추천 알고리즘
+# def Filtering_RecipeData_by_CBF(user_id):
+#     CBF(User_ID=user_id)
+#     Recommender_df= pd.read_json(BASE_DIR+'/Output/CBF_Recommender/'+'User_ID_'+str(user_id)+'_CBF_results.json')
+#     recommended_recipe = list(Recommender_df['recommended_recipe'])
+#
+#     recipes= Download_Recipes()
+#     matched_recipes=pd.DataFrame()
+#     for recipe in recommended_recipe:
+#         matched_df=recipes[recipes['title']==recipe]
+#         matched_recipes=pd.concat([matched_recipes,matched_df])
+#     matched_recipes.drop_duplicates(['title'],inplace=True)
+#
+#     # 필터링
+#     matched_recipes=matched_recipes[matched_recipes['calorie']<1000]
+#     matched_recipes=matched_recipes[matched_recipes['time']<60]
 #
 #     return matched_recipes
