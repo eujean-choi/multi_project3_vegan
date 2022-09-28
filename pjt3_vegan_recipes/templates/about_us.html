@@ -99,19 +99,19 @@
         <div class="section-title">
             <h5>Clustering</h5>
         </div>
-        <div class="container">
+        <div class="container" style="line-height: 30px;">
             <div class="row">
-<<<<<<< HEAD
                 <b>Centroid-based clustering organizes the data into non-hierarchical clusters.<br/>
-=======
-                {% autoescape off %}
-                {{ graph }}
-                {% endautoescape %}
-                <b>Centroid-based clustering organizes the data into non-hierarchical clusters, in contrast to hierarchical clustering defined below.<br/>
->>>>>>> ec19227603b9260ae647af2bedc8f1b259408240
                     k-means is the most widely-used centroid-based clustering algorithm.<br/>
                     Centroid-based algorithms are efficient but sensitive to initial conditions and outliers.<br/></b>
-                    (source: https://developers.google.com/machine-learning/clustering/clustering-algorithms?hl=en)
+            </div>
+            <div class="row">
+                <a href="https://developers.google.com/machine-learning/clustering/clustering-algorithms?hl=en" target="_blank">source: https://developers.google.com/machine-learning/clustering</a>
+            </div>
+            <div class="row">
+                {% autoescape off %}
+                    {{ graph }}
+                {% endautoescape %}
             </div>
         </div>
     </section>
@@ -122,10 +122,13 @@
         <div class="section-title">
             <h5>CBF Recommendation System</h5>
         </div>
-        <div class="container">
+        <div class="container" style="line-height: 30px;">
             <div class="row">
                 <b>Content-based filtering uses recipe ingredients to recommend other recipes similar to what the user likes, based on their previous actions or explicit feedback.<br/></b>
-                (source: https://developers.google.com/machine-learning/recommendation/content-based/basics?hl=en)
+                <img src="../static/img/about-us/CBF.png" alt=""><br/>
+            </div>
+            <div class="row">
+                <a href="https://developers.google.com/machine-learning/recommendation/content-based/basics?hl=en" target="_blank">source: https://developers.google.com/machine-learning/recommendation/content-based</a>
             </div>
         </div>
     </section>
@@ -136,12 +139,15 @@
         <div class="section-title">
             <h5>CF Recommendation System</h5>
         </div>
-        <div class="container">
+        <div class="container" style="line-height: 30px;">
             <div class="row">
                 <b>To address some of the limitations of content-based filtering, collaborative filtering uses similarities between users and items simultaneously to provide recommendations.<br/>
                 This allows for serendipitous recommendations; that is, collaborative filtering models can recommend an recipe to user A based on the interests of a similar user B.<br/>
                 Furthermore, the embeddings can be learned automatically, without relying on hand-engineering of features.<br/></b>
-                (source: https://developers.google.com/machine-learning/recommendation/collaborative/basics?hl=en)
+                <img src="../static/img/about-us/CF.png" alt=""><br/>
+            </div>
+            <div class="row">
+                <a href="https://developers.google.com/machine-learning/recommendation/collaborative/basics?hl=en" target="_blank">source: https://developers.google.com/machine-learning/recommendation/collaborative</a>
             </div>
         </div>
     </section>
