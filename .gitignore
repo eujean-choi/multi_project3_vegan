@@ -1,6 +1,7 @@
 secrets.json
 
 __pycache__/
+*.py[cod]
 pjt3_vegan_recipes/__pycache__
 pjt3_vegan_recipes/__pycache__/__init__.cpython-38.pyc
 pjt3_vegan_recipes/__pycache__/settings.cpython-38.pyc
