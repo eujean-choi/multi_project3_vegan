@@ -49,7 +49,8 @@
             <div class="nav-menu">
                 <nav class="main-menu mobile-menu">
                     <ul>
-                        <li><a href="/">Home</a></li>
+                        <li><a href="/login">Recommend</a></li>
+                        <li><a href="/login">Search Recipe</a></li>
                         <li><a href="/login">Pinned Recipe</a></li>
                         <li><a href="/about_us">About Us</a></li>
                     </ul>
@@ -197,21 +198,21 @@
                     <div class="fact-item bg-light rounded text-center h-100 p-5">
                         <i class="fa fa-users fa-4x" aria-hidden="true"></i>
                         <p class="mb-2">Users</p>
-                        <h1 class="display-5 mb-0" data-toggle="counter-up">175</h1>
+                        <h1 class="display-5 mb-0" data-toggle="counter-up">{{ counts.user_count }}</h1>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 wow fadeIn" data-wow-delay="0.5s">
                     <div class="fact-item bg-light rounded text-center h-100 p-5">
                         <i class="fa fa-heart fa-4x" aria-hidden="true"></i>
                         <p class="mb-2">Pinned Recipe</p>
-                        <h1 class="display-5 mb-0" data-toggle="counter-up">135</h1>
+                        <h1 class="display-5 mb-0" data-toggle="counter-up">{{ counts.pinned_recipe_count }}</h1>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 wow fadeIn" data-wow-delay="0.7s">
                     <div class="fact-item bg-light rounded text-center h-100 p-5">
                         <i class="fa fa-cutlery fa-4x" aria-hidden="true"></i>
                         <p class="mb-2">Recipes</p>
-                        <h1 class="display-5 mb-0" data-toggle="counter-up">{{recipe_count}}</h1>
+                        <h1 class="display-5 mb-0" data-toggle="counter-up">{{ counts.recipe_count }}</h1>
                     </div>
                 </div>
             </div>
