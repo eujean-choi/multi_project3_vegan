@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="457af43a-1905-47ef-ba73-bc4bc4cdd608" name="Changes" comment="checked">
+      <change afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/CBF_Metrics" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender/CBF_Similarity_Scores" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/multi_project3_vegan.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/multi_project3_vegan.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/templates/search_result.html" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/templates/search_result.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/templates/search_result_q.html" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/templates/search_result_q.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/output/user_dummy_data" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/user_dummy_data" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/recommender_systems.py" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/recommender_systems.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/source/CF_Recommender/CF_Model.h5" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/output/CF_Recommender/CF_Model.h5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pjt3_vegan_recipes/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/pjt3_vegan_recipes/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +28,7 @@
       <list>
         <option value="HTML File" />
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
@@ -44,7 +51,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/workspaces&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/wooseongkyun/코드_아카이브/멀캠_프로젝트들/multi_project3_vegan/pjt3_vegan_recipes/source&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -54,9 +61,18 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\workspaces\multi_project3_vegan" />
-      <recent name="$PROJECT_DIR$/pjt3_vegan_recipes/templates" />
-      <recent name="C:\Users\workspaces\multi_project3_vegan\pjt3_vegan_recipes\templates" />
+      <recent name="$PROJECT_DIR$/pjt3_vegan_recipes/source" />
+      <recent name="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender" />
+      <recent name="$PROJECT_DIR$/pjt3_vegan_recipes/output/CF_Recommender" />
+      <recent name="$PROJECT_DIR$/pjt3_vegan_recipes/source/CBF_Recommender" />
+      <recent name="$PROJECT_DIR$/pjt3_vegan_recipes" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pjt3_vegan_recipes/output/CF_Recommender" />
+      <recent name="$PROJECT_DIR$/pjt3_vegan_recipes/output/CBF_Recommender" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/pjt3_vegan_recipes" />
+      <recent name="$PROJECT_DIR$/pjt3_vegan_recipes/source" />
     </key>
   </component>
   <component name="RunManager">
@@ -98,6 +114,11 @@
       <workItem from="1663741250227" duration="636000" />
       <workItem from="1664258913571" duration="1020000" />
       <workItem from="1664260418067" duration="16362000" />
+      <workItem from="1664446745366" duration="295000" />
+      <workItem from="1664447059255" duration="5487000" />
+      <workItem from="1664496281912" duration="17000" />
+      <workItem from="1664496304495" duration="5994000" />
+      <workItem from="1664868928393" duration="8415000" />
     </task>
     <task id="LOCAL-00001" summary="checked">
       <created>1664353423022</created>

@@ -1,7 +1,3 @@
-# multi_project3_vegan
-
-![logo_clear](pjt3_vegan_recipes/static/img/logo/Fruit_Fruit_2_clear.png)
-
-### Fruit Fruit (푸릇푸릇)
-
-비건 레시피 추천 서비스
+version https://git-lfs.github.com/spec/v1
+oid sha256:e5fd05c9115c418aab3c54c5f1b1eee4b2212b4cf5d8e00a005e2474066cf1d3
+size 165

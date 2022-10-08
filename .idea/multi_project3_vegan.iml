@@ -16,6 +16,7 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 3.9 (tf_env)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="프로젝트코드(for_Django)" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />

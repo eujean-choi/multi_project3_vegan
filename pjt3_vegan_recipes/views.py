@@ -539,9 +539,7 @@ def recommend_by_algorithm(request):
     user = request.session['user']
     USER_ID = user
     print('user: ', user)
-    print(type(user))
     print('USER_ID: ', USER_ID)
-    print(1)
     recommended_recipe_CBF = recommended_recipe_data_by_CBF(user_id=USER_ID)
     recommended_recipe_CF = recommended_recipe_data_by_CF(user_id=USER_ID)
 

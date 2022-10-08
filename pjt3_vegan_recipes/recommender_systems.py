@@ -621,23 +621,21 @@ def download_rating(table_nm='rating'):
 # %% 콘텐츠 기반 필터링
 def CBF(User_ID, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
     CBF_df = None
-    print(model_loc)
-    print('C:\workspaces\project3\multi_project3_vegan\pjt3_vegan_recipes\output\CBF_Recommender\CBF_Model')
-    print('CBF', 1)
+
     ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data')
     user_rating_lst = ratings[ratings['user_id'] == User_ID]
     user_rating_lst = user_rating_lst[user_rating_lst['stars'] >= 4]
     user_rating_lst = user_rating_lst['selected_recipe_name']
     user_rating_lst = user_rating_lst.tolist()
 
-    print('CBF', 2)
+
 
     # 모델 불러오기
     model = doc2vec.Doc2Vec.load(model_loc)
-    # 임베딩 벡터 평균치로써 유저가 가장 좋아할만한 레시피 10개를 추천한다
+    # 임베딩 벡터 평균치로써 유저가 가장 좋아할만한 레시피 20개를 추천한다
     recommend_result = model.dv.most_similar(user_rating_lst, topn=top_n)
 
-    print('CBF', 3)
+
 
     # 이때 데이터는 (레시피명,유사도) 튜플 형태로 반환된다
     # 추천된 레시피와 유사도 점수를 분리해서 담기
@@ -654,22 +652,20 @@ def CBF(User_ID, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
 # %% 3-R2. CBF 추천 알고리즘 모델 파일 만들기
 # 절대 경로 /각자 컴퓨터에 맞게 수정 부탁드립니다
 def make_CBF_model():
+
     df = download_recipes()
     tokened_df, recipe_N_ingredients_2 = C2_get_preprocessed_recipe(df)
     # 레시피-재료 document를 doc2vec 하여 레시피간 재료의 유사도를 고려하는 모델 생성하기
-
     # doc2Vec을 적용하기 위해 문자열로 구성된 ingredient 성분들을 띄워쓰기를 기준으로 list로 쪼갠다
     splited_lst = pd.Series(tokened_df['ingredients']).apply(lambda x: x.split()).tolist()
     # doc2Vec을 적용시키기 위한 데이터구조로 만들고, 적용시킨다
     # 이때 모델학습에 사용되는 데이터는 레시피 데이터셋이다
     taggedDocs = [TaggedDocument(words=splited_lst[i], tags=tokened_df['title'][{i}]) for i in range(len(splited_lst))]
-
     # Doc2Ve
     # 레시피 데이터셋을 활용하여 학습하였다
     # 각 레시피는 구성되는 재료들을 활용하여 유사도를 측정한다
     model = gensim.models.doc2vec.Doc2Vec(taggedDocs, dm=1, vector_size=50, epochs=10, hs=0, seed=0)
     model.train(taggedDocs, total_examples=model.corpus_count, epochs=model.epochs)
-
     # 모델 저장하기
     fname = get_tmpfile(BASE_DIR + '/output/CBF_Recommender/CBF_Model')
     model.save(fname)
@@ -853,7 +849,8 @@ def make_CF_model():
     result = model.fit(
         x=[ratings_train.user_id.values, ratings_train.selected_recipe_id.values],
         y=ratings_train.stars.values - mu,
-        epochs=32,
+        epochs=8,
+        batch_size=512,
         validation_data=(
             [ratings_test.user_id.values, ratings_test.selected_recipe_id.values],
             ratings_test.stars.values - mu
