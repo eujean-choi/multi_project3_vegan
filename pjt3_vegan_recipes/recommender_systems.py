@@ -34,8 +34,7 @@ from plotly.offline import plot
 plt.rcParams.update({'font.family': 'AppleGothic'})
 
 
-# 텍스트에 포함된 특수문자 제거 함수
-# 단 &는 재료의 최소단위를 구분짓는 경계로 사용할 것이기 때문에 제외
+# 텍스트에 포함된 특수문자 제거 함수 (단, &는 재료의 최소 단위를 구분짓는 경계이므로 제외)
 def remove_special_char(read_data):
     text = re.sub('[-=+,#/\?:^.@*\"※~%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》|\u0080-\uffef]', ' ', read_data)
     return text
@@ -65,30 +64,25 @@ def preprocess_text(read_data):
 
 
 # %% 기본 설정값
-# 클러스터링 분석에 사용될 재료를 빈도수로 몇개를 택할 것인가?
-num_selected_feature = 100
-# 클러스터의 수
-num_cluster = 6
-# 더미 유저 수
-num_dummy_user = 20000
-# 더미 레시피 수
-num_dummy_recipe = 200
-# 추천 레시피 수
-top_n = 20
+
+num_selected_feature = 100  # 클러스터링 분석에 사용될 재료를 선택할 빈도수
+num_cluster = 6             # 클러스터의 수
+num_dummy_user = 20000      # 더미 유저 수
+num_dummy_recipe = 200      # 더미 레시피 수
+top_n = 20                  # 추천 레시피 수
 
 
-# %%
-# 1.클러스터링
+# %% 1.클러스터링
 
 # %% 1-1. 데이터 셋 불러오기
 # 파이썬에서 MySql 연결을 위한 함수
 def download_recipes():
     table_nm = 'recipe'
     user_nm = 'root'
-    user_pw = 't0101'
-    host_nm = '35.79.107.247'
+    user_pw = 't01dbpw'
+    host_nm = 'localhost'
     host_address = '3306'
-    db_nm = 'team01'
+    db_nm = 'vegan_table'
     # 데이터베이스 연결
     db_connection_path = f'mysql+mysqldb://{user_nm}:{user_pw}@{host_nm}:{host_address}/{db_nm}'
     db_connection = create_engine(db_connection_path, encoding='utf-8')
@@ -101,10 +95,10 @@ def download_recipes():
 
 def upload_dataset(df, table_nm):
     user_nm = 'root'
-    user_pw = 't0101'
-    host_nm = '35.79.107.247'
+    user_pw = 't01dbpw'
+    host_nm = 'localhost'
     host_address = '3306'
-    db_nm = 'team01'
+    db_nm = 'vegan_table'
     # 데이터베이스 연결
     db_connection_path = f'mysql+mysqldb://{user_nm}:{user_pw}@{host_nm}:{host_address}/{db_nm}'
     db_connection = create_engine(db_connection_path, encoding='utf-8')
@@ -148,7 +142,7 @@ def C2_get_preprocessed_recipe(df):
     recipe_N_ingredients_2['ingredients'] = recipe_N_ingredients_2['ingredients'].apply(lambda x: x.lower())
 
     # 요리 측량 단위 레퍼런스: https://en.wikibooks.org/wiki/Cookbook:Units_of_measurement
-    # 요리 측정 단위 단어들을 불용어로 지정하기 위해 다음과 같은 단어 리스트들을 지정해둔다
+    # 요리 측정 단위 단어들을 불용어로 지정하기 위해 다음과 같은 단어 리스트로 지정
     ingredient_stopwords = ['fresh', 'optional', 'sliced', 'cubes', 'hot', 'frozen', 'juiced', 'syrup', 'taste',
                             'unsweetened', 'soft', 'removed', 'plant', 'based', 'choice', 'tspground', 'turmeric',
                             'pinchground', 'black', 'canned', 'granulated', 'vegan', 'pure', 'extract', 'brown',
@@ -554,7 +548,6 @@ def make_dummy_5stars():
     # pd.DataFrame(random_numbers).sum(axis=1)
 
     random_reviews.to_csv(BASE_DIR + '/output/dummy_data.csv')
-
     print('더미 데이터 제작이 완료되었습니다')
     return random_reviews
 
@@ -603,10 +596,10 @@ def user_for_db():
 # %% 2-3. DB에서 유저 데이터 불러오기
 def download_rating(table_nm='rating'):
     user_nm = 'root'
-    user_pw = 't0101'
-    host_nm = '35.79.107.247'
+    user_pw = 't01dbpw'
+    host_nm = 'localhost'
     host_address = '3306'
-    db_nm = 'team01'
+    db_nm = 'vegan_table'
     # 데이터베이스 연결
     db_connection_path = f'mysql+mysqldb://{user_nm}:{user_pw}@{host_nm}:{host_address}/{db_nm}'
     db_connection = create_engine(db_connection_path, encoding='utf-8')
@@ -654,7 +647,6 @@ def CBF(User_ID, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
 # %% 3-R2. CBF 추천 알고리즘 모델 파일 만들기
 # 절대 경로 /각자 컴퓨터에 맞게 수정 부탁드립니다
 def make_CBF_model():
-
     df = download_recipes()
     tokened_df, recipe_N_ingredients_2 = C2_get_preprocessed_recipe(df)
     # 레시피-재료 document를 doc2vec 하여 레시피간 재료의 유사도를 고려하는 모델 생성하기
@@ -746,8 +738,7 @@ def RMSE(y_true, y_pred):
     return tf.sqrt(tf.reduce_mean(tf.square(y_true - y_pred)))
 
 
-# %% 4-R1 협업 필터링 적용
-# 특정 유저의 좋아요 기록을 불러오기
+# %% 4-R1 협업 필터링 적용: 특정 유저의 좋아요 기록을 불러오기
 def CF(user_id, model_loc=BASE_DIR + "/output/CF_Recommender/CF_Model.h5"):
     def RMSE(y_true, y_pred):
         return tf.sqrt(tf.reduce_mean(tf.square(y_true - y_pred)))
@@ -758,8 +749,7 @@ def CF(user_id, model_loc=BASE_DIR + "/output/CF_Recommender/CF_Model.h5"):
     selected_recipe_ranges = list(range(len(selected_recipe_names)))
     selected_recipes_dict = dict(zip(selected_recipe_names, selected_recipe_ranges))
 
-    # 유저들의 평가 데이터 불러오기
-    # 그중 4점 이상 평가한 것으로 추린다
+    # 유저들의 평가 데이터 불러오기 + 그 중 4점 이상 평가한 것으로 추린다
     user_rating_name = ratings[ratings['user_id'] == user_id]
     user_rating_name['stars'] = user_rating_name['stars'].apply(lambda x: int(x))
     user_rating_name = user_rating_name[user_rating_name['stars'] >= 4]
@@ -914,8 +904,7 @@ def recommended_recipe_data_by_CF(user_id):
     return matched_recipes
 
 
-# %% 5. 필터링된 추천 알고리즘
-# %%
+# %% 5. 필터링 된 추천 알고리즘
 def get_filter_data():
     # 인덱스가 숫자임에도 문자열로 인식되어 순서가 엉망이길래 정렬해줌
     def str2int(x):

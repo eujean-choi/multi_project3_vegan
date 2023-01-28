@@ -91,13 +91,24 @@ WSGI_APPLICATION = 'pjt3_vegan_recipes.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'team01',
+#         'USER': 'root',
+#         'PASSWORD': 't0101',
+#         'HOST': '35.79.107.247',
+#         'PORT': '3306',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'team01',
+        'NAME': 'vegan_table',
         'USER': 'root',
-        'PASSWORD': 't0101',
-        'HOST': '35.79.107.247',
+        'PASSWORD': 't01dbpw',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
