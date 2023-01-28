@@ -1,55 +1,19 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from time import sleep
-import random
+from .BASE_DIR import *
 from pymongo import MongoClient
 from datetime import datetime, timezone
 from dateutil import parser
+import pytz
+import random
 import requests
-from .BASE_DIR import *
 
-
-def today_yt():
-    url = 'https://www.youtube.com/results?search_query=vegan+recipe&sp=CAMSBAgCEAE%253D'
-
-    options = Options()
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-
-    service = Service(BASE_DIR + CHROMEDRIVER)
-    driver = webdriver.Chrome(service=service, options=options)
-    driver.get(url)
-    sleep(3)
-
-    v_list = list()
-
-    for i in range(10):
-        v_path = '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[' + str(i + 1) + ']/div[1]/ytd-thumbnail/a'
-        v_list.append(driver.find_element(By.XPATH, v_path).get_attribute("href"))
-
-    ran_vid = random.choice(v_list)
-
-    if "shorts" not in ran_vid:
-        today_vid = ran_vid.replace('/watch?v=', '/embed/')
-    else:
-        today_vid = ran_vid.replace('shorts', 'embed')
-
-    return today_vid
+client = MongoClient(host='localhost', port=27017, username='root', password='t01dbpw', authSource='admin')
+db = client.project
 
 
 def today_tw():
-    # client = MongoClient('localhost', 27017)
-    # db = client.test
-    client = MongoClient(host='35.79.107.247', port=27017, username='team01', password='t0101', authSource='admin')
-    db = client.project
-
-    tweets = db.twitter.find({}, {'_id': 0})
-    t_list = list()
-
     today = datetime.now(timezone.utc)
+    t_list = list()
+    tweets = db.twitter.find({}, {'_id': 0})
 
     for tweet in tweets:
         author_id = tweet['author_id']
@@ -70,3 +34,22 @@ def today_tw():
 
     response_text = req_json['html']
     return response_text
+
+
+def today_yt():
+    v_list = list()
+    videos = db.youtube.find({}, {'_id': 0})
+
+    kst = pytz.timezone('Asia/Seoul')
+    seoul_time = datetime.now(kst)
+
+    for video in videos:
+        # 날짜가 오늘인 비디오만 출력
+        video_date = video['created_at']
+        video_date_parse = parser.parse(video_date)
+
+        if (seoul_time - video_date_parse).seconds / 3600 <= 24:
+            v_list.append(video['link'])
+
+    ran_vid = random.choice(v_list)
+    return ran_vid
