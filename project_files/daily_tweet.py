@@ -4,6 +4,7 @@ import tweepy
 import json
 from pymongo import MongoClient
 from datetime import datetime, timedelta
+from bearer_token import bearer_token
 
 client = MongoClient("mongodb://readwrite:t01rw@localhost:27017/")
 db = client.project
@@ -25,8 +26,7 @@ class TwitterStream(tweepy.StreamingClient):
 
 def send_data(keyword):
     # 스트림 클라이언트 인스턴스 생성
-    BEARER_TOKEN = 'AAAAAAAAAAAAAAAAAAAAAPLxggEAAAAAUkllEYIehhsN4%2FgrZFO7xv3SCY8%3D66qsp4JofDNsI5UjdIKJgQTEN62Nsm9I5d6DRRhTaXCtGttGVD'
-    client = TwitterStream(BEARER_TOKEN)
+    client = TwitterStream(bearer_token)
     
     # 규칙 삭제
     rules = client.get_rules()
