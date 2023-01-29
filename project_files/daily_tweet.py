@@ -9,15 +9,18 @@ client = MongoClient("mongodb://readwrite:t01rw@localhost:27017/")
 db = client.project
 
 
+# 제외할 단어, 유저 리스트
+exclude_words = ['@', 'digital art', 'drawing', 'painting']
+exclude_authors = ['1343308799462023168']
+
 # tweepy.StreamClient 클래스를 상속받는 클래스
 class TwitterStream(tweepy.StreamingClient):
     def on_data(self, raw_data):
         data = json.loads(raw_data)
         tweet = data['data']
-        
-        if '@' not in tweet['text'] and tweet['lang'] == 'en':
+
+        if all([tweet['lang'] == 'en', tweet['author_id'] not in exclude_authors, not any(x in tweet['text'] for x in exclude_words)]):
             db.twitter.insert_one(tweet)
-            print(tweet)
 
 
 def send_data(keyword):

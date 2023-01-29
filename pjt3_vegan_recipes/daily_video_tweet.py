@@ -1,4 +1,3 @@
-from .BASE_DIR import *
 from pymongo import MongoClient
 from datetime import datetime, timezone
 from dateutil import parser
