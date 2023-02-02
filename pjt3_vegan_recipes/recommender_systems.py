@@ -16,7 +16,6 @@ from tensorflow.keras.regularizers import l2
 from tensorflow.keras.optimizers import SGD, Adam, Adamax
 
 import nltk
-nltk.download('wordnet')
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
@@ -31,6 +30,7 @@ import matplotlib.cm as cm
 import plotly.express as px
 from plotly.offline import plot
 
+nltk.download('wordnet')
 plt.rcParams.update({'font.family': 'AppleGothic'})
 
 
@@ -586,7 +586,7 @@ def user_for_db():
         recipe_ids = [selected_recipes_dict[i] for i in ratings['selected_recipe_id']]
         ratings['selected_recipe_name'] = recipe_ids
         ratings.drop('selected_recipe_id', axis=1, inplace=True)
-        ratings.to_json(BASE_DIR + '/output/user_dummy_data')
+        ratings.to_json(BASE_DIR + '/output/user_dummy_data.json')
         print('로컬에서 유저 데이터 가공이 완료되었습니다')
 
     except:
@@ -606,7 +606,7 @@ def download_rating(table_nm='rating'):
     conn = db_connection.connect()
     # 데이터 로딩
     df = pd.read_sql_table(table_nm, con=conn)
-    df.to_json(BASE_DIR + '/output/user_dummy_data')
+    df.to_json(BASE_DIR + '/output/user_dummy_data.json')
     print('DB로부터 유저 데이터를 다운로드 완료하였습니다')
 
 
@@ -617,7 +617,7 @@ def CBF(User_ID, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
     print(model_loc)
     print('C:\workspaces\project3\multi_project3_vegan\pjt3_vegan_recipes\output\CBF_Recommender\CBF_Model')
     print('CBF', 1)
-    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data')
+    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
     user_rating_lst = ratings[ratings['user_id'] == User_ID]
     user_rating_lst = user_rating_lst[user_rating_lst['stars'] >= 4]
     user_rating_lst = user_rating_lst['selected_recipe_name']
@@ -672,7 +672,7 @@ def make_CBF_model():
 # %%
 def metric_CBF(model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
     total_similarity_score = []
-    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data')
+    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
     for User_ID in range(1, 20001):
         print(User_ID)
         user_rating_lst = ratings[ratings['user_id'] == User_ID]
@@ -697,7 +697,7 @@ def metric_CBF(model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
         similarity_score_df = pd.DataFrame(total_similarity_score)
         similarity_score_df.loc['average'] = similarity_score_df.mean()
         similarity_score_df.loc['std'] = np.sqrt(similarity_score_df.var())
-        similarity_score_df.to_json(BASE_DIR + '/output/CBF_Recommender/CBF_Metrics')
+        similarity_score_df.to_json(BASE_DIR + '/output/CBF_Recommender/CBF_Metrics.json')
         print('탐색이 완료되었습니다')
 
 
@@ -716,7 +716,7 @@ def CF1_spliting_train_test(ratings, TRAIN_SIZE=0.75):
 # %% 4-2.
 def CF2_get_unseen_recipes(user_id):
     user_id = 20
-    user_DB = pd.read_json(BASE_DIR + '/output/user_dummy_data')
+    user_DB = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
     selected_recipe_names = user_DB['selected_recipe_name'].unique().tolist()
     selected_recipe_ranges = list(range(len(selected_recipe_names)))
     selected_recipes_dict = dict(zip(selected_recipe_names, selected_recipe_ranges))
@@ -744,7 +744,7 @@ def CF(user_id, model_loc=BASE_DIR + "/output/CF_Recommender/CF_Model.h5"):
         return tf.sqrt(tf.reduce_mean(tf.square(y_true - y_pred)))
 
     # 200개로 추려진 요리 목록을 딕셔너리 형태로 담기
-    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data')
+    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
     selected_recipe_names = ratings['selected_recipe_name'].unique().tolist()
     selected_recipe_ranges = list(range(len(selected_recipe_names)))
     selected_recipes_dict = dict(zip(selected_recipe_names, selected_recipe_ranges))
@@ -791,7 +791,7 @@ def CF(user_id, model_loc=BASE_DIR + "/output/CF_Recommender/CF_Model.h5"):
 
 # %% 4-R2. 딥러닝 모델 설계 및 학습 & 저장
 def make_CF_model():
-    user_DB = pd.read_json(BASE_DIR + '/output/user_dummy_data')
+    user_DB = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
 
     selected_recipe_names = user_DB['selected_recipe_name'].unique().tolist()
     selected_recipe_ranges = list(range(len(selected_recipe_names)))

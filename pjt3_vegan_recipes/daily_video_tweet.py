@@ -19,11 +19,11 @@ def today_tw():
         tweet_id = tweet['id']
         link = f"https://twitter.com/{author_id}/status/{tweet_id}"
 
-        # 날짜가 오늘인 트윗만 출력
+        # 25시간 이내 작성된 트윗만 출력 (트윗 API 가져오는 데 걸리는 시간 감안)
         tweet_date = tweet['created_at']
         tweet_date_parse = parser.parse(tweet_date)
 
-        if (today - tweet_date_parse).seconds / 3600 <= 24:
+        if (today - tweet_date_parse).seconds / 3600 <= 25:
             t_list.append(link)
 
     rand_twt = random.choice(t_list)
@@ -43,11 +43,11 @@ def today_yt():
     seoul_time = datetime.now(kst)
 
     for video in videos:
-        # 날짜가 오늘인 비디오만 출력
+        # 25시간 이내 업로드 된 비디오만 출력
         video_date = video['created_at']
         video_date_parse = parser.parse(video_date)
 
-        if (seoul_time - video_date_parse).seconds / 3600 <= 24:
+        if (seoul_time - video_date_parse).seconds / 3600 <= 25:
             v_list.append(video['link'])
 
     ran_vid = random.choice(v_list)
