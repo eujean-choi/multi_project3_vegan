@@ -615,21 +615,19 @@ def download_rating(table_nm='rating'):
 def CBF(User_ID, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
     CBF_df = None
     print(model_loc)
-    print('C:\workspaces\project3\multi_project3_vegan\pjt3_vegan_recipes\output\CBF_Recommender\CBF_Model')
     print('CBF', 1)
+
     ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
     user_rating_lst = ratings[ratings['user_id'] == User_ID]
     user_rating_lst = user_rating_lst[user_rating_lst['stars'] >= 4]
     user_rating_lst = user_rating_lst['selected_recipe_name']
     user_rating_lst = user_rating_lst.tolist()
-
     print('CBF', 2)
 
     # 모델 불러오기
     model = doc2vec.Doc2Vec.load(model_loc)
     # 임베딩 벡터 평균치로써 유저가 가장 좋아할만한 레시피 10개를 추천한다
     recommend_result = model.dv.most_similar(user_rating_lst, topn=top_n)
-
     print('CBF', 3)
 
     # 이때 데이터는 (레시피명,유사도) 튜플 형태로 반환된다
@@ -638,7 +636,6 @@ def CBF(User_ID, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
     similarity_score = [recommend_result[i][1] for i in range(len(recommend_result))]
     CBF_df = pd.DataFrame([recipe_name, similarity_score, user_rating_lst],
                           index=['recommended_recipe', 'ingredients_cosine_similarity', 'user_preferred_recipe']).T
-
     print('CBF', 4)
 
     CBF_df.to_json(BASE_DIR + '/output/CBF_Recommender/' + 'User_ID_' + str(User_ID) + '_CBF_results.json')
