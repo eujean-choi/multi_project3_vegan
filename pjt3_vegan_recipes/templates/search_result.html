@@ -7,11 +7,12 @@
     <meta name="keywords" content="Yoga, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Fruit Fruit</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../static/img/logo/Fruit_Fruit_2_clear.png" type="image/x-icon">
-    <link rel="icon" href="../static/img/logo/Fruit_Fruit_2_clear.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../static/img/logo/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../static/img/logo/favicon.ico" type="image/x-icon">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap" rel="stylesheet">
@@ -46,7 +47,7 @@
     <header class="header-section-other">
         <div class="container-fluid hero-search set-bg" data-setbg="../../static/img/search-bg.jpg">
             <div class="logo" style="z-index: 2;">
-                <a href="/"><img src="../../static/img/logo/Fruit_Fruit_2_clear.png" alt=""></a>
+                <a href="/main_login/"><img src="../../static/img/logo/Fruit_Fruit_2_clear.png" alt=""></a>
             </div>
             <div class="nav-menu">
                 <nav class="main-menu mobile-menu">
@@ -185,6 +186,45 @@
                     </select>
                     <input type="text" placeholder="Search" name="q">
                     <button type="submit">Search</button>
+                    <script>
+                        $(document).ready(function() {
+                            $('#search-input').on('input', function() {
+                                var input = $('#search-input').val();
+                                if (input.length == 0) {
+                                    $('#suggestions').empty();
+                                    return;
+                                }
+                                $.ajax({
+                                    url: 'http://localhost:9200/recipes/_search',
+                                    type: 'GET',
+                                    data: {
+                                        size: 5,
+                                        query: {
+                                            multi_match: {
+                                                query: input,
+                                                type: 'bool_prefix',
+                                                fields: ['title']
+                                            }
+                                        },
+                                        _source: ['title', 'id']
+                                    },
+                                    success: function(data) {
+                                        var results = data.results;
+                                        var suggestions = $('#suggestions');
+                                        suggestions.empty();
+                                        for (var i = 0; i < results.length; i++) {
+                                            var result = results[i];
+                                            var suggestion = $('<a href="#">' + result.title + '</a>');
+                                            suggestion.click(function() {
+                                                window.location.href = 'http://127.0.0.1:8000/recipe/' + result.id;
+                                            });
+                                            suggestions.append(suggestion);
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    </script>
                 </form>
             </div>
         </div>
@@ -211,7 +251,7 @@
                                 {% if recipe.image %}
                                 <img class="card-img-top embed-responsive-item" src="{{ recipe.image }}" width="" alt="{{ recipe }}" />
                                 {% else %}
-                                <img class="card-img-top embed-responsive-item" src="../../static/img/logo/Fruit_Fruit_2_clear.png">
+                                <img class="card-img-top embed-responsive-item" src="../../static/img/logo/notfound_small.png">
                                 {% endif %}
                             </a>
                         </div>

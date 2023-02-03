@@ -10,6 +10,7 @@ from .BASE_DIR import BASE_DIR
 
 import json
 import sys
+
 sys.path.append(BASE_DIR)
 
 
@@ -17,7 +18,8 @@ sys.path.append(BASE_DIR)
 def main(request):
     category_region = dict()
     # category
-    category_1_total = Recipe.objects.filter(category='1.India+South America+South Asia <Main ingredients: cumin/coriander/cilantro/lime/avocado/onion>')
+    category_1_total = Recipe.objects.filter(
+        category='1.India+South America+South Asia <Main ingredients: cumin/coriander/cilantro/lime/avocado/onion>')
     category_1_id_list = list()
     for data in category_1_total:
         category_1_id_list.append(data.recipe_id)
@@ -35,7 +37,8 @@ def main(request):
     category_2 = Recipe.objects.get(recipe_id=c2_id)
     category_region['2'] = '2. East Asia'
 
-    category_3_total = Recipe.objects.filter(category='3.Dessert+ Bread <Main ingredients: sugar/milk/coconut/vanilla/butter/almond>')
+    category_3_total = Recipe.objects.filter(
+        category='3.Dessert+ Bread <Main ingredients: sugar/milk/coconut/vanilla/butter/almond>')
     category_3_id_list = list()
     for data in category_3_total:
         category_3_id_list.append(data.recipe_id)
@@ -135,7 +138,6 @@ def recipe(request, id):
     pin_recipe['pinned'] = pinned
     pin_recipe['pinned_length'] = pinned_length
 
-
     # 재료 덩어리 리스트로 만들기 #
     ingredients = recipe_one.ingredients
     ingredients = ingredients.split('[')[1]
@@ -155,8 +157,8 @@ def recipe(request, id):
         recipe_tmplist = recipe_bulk.split('"')
         recipe_tmplist = recipe_tmplist[1::2]
         # 숫자 표시 지우고 리스트에 담기
-        recipe_list = list() # 레시피 instruction
-        recipe_instruction = dict() # 레시피 instruction 덩어리
+        recipe_list = list()  # 레시피 instruction
+        recipe_instruction = dict()  # 레시피 instruction 덩어리
         recipe_instruction_list = list()  # 레시피 instruction 덩어리 리스트
         for recipe_item in recipe_tmplist:
             point = recipe_item.index('.')
@@ -166,8 +168,8 @@ def recipe(request, id):
         recipe_instruction_list.append(recipe_instruction)
 
     else:
-        recipe_list = list() # 레시피 instruction
-        recipe_instruction = dict() # 레시피 instruction 덩어리
+        recipe_list = list()  # 레시피 instruction
+        recipe_instruction = dict()  # 레시피 instruction 덩어리
         recipe_instruction_list = list()  # 레시피 instruction 덩어리 리스트
 
         recipe_bulk_list = recipe_bulk.split("{")
@@ -199,7 +201,8 @@ def recipe(request, id):
         category_region = category_raw
 
     return render(request, 'recipe.html',
-                  {'list': recipe_one, 'ingredient_list': ingredient_list, 'recipe_instruction_list': recipe_instruction_list,
+                  {'list': recipe_one, 'ingredient_list': ingredient_list,
+                   'recipe_instruction_list': recipe_instruction_list,
                    'category_region': category_region, 'rated_stars': rated_stars, 'pin_recipe': pin_recipe})
 
 
@@ -255,7 +258,7 @@ def signup_1(request):
             err_data['error'] = 'Please check the password'
             return render(request, 'signup_1.html', err_data)
         else:
-            user = UserInfo(user_name=user_name, user_pw=user_pw,)
+            user = UserInfo(user_name=user_name, user_pw=user_pw, )
             user.save()
             request.session['user_name'] = user_name
 
@@ -264,7 +267,8 @@ def signup_1(request):
 
 def signup_2(request):
     # category
-    category_1_total = Recipe.objects.filter(category='1.India+South America+South Asia <Main ingredients: cumin/coriander/cilantro/lime/avocado/onion>')
+    category_1_total = Recipe.objects.filter(
+        category='1.India+South America+South Asia <Main ingredients: cumin/coriander/cilantro/lime/avocado/onion>')
     category_1_id_list = list()
     for data in category_1_total:
         category_1_id_list.append(data.recipe_id)
@@ -294,7 +298,8 @@ def signup_3(request):
 
 def signup_4(request):
     # category
-    category_3_total = Recipe.objects.filter(category='3.Dessert+ Bread <Main ingredients: sugar/milk/coconut/vanilla/butter/almond>')
+    category_3_total = Recipe.objects.filter(
+        category='3.Dessert+ Bread <Main ingredients: sugar/milk/coconut/vanilla/butter/almond>')
     category_3_id_list = list()
     for data in category_3_total:
         category_3_id_list.append(data.recipe_id)
@@ -449,9 +454,9 @@ def search_result_q(request):
         ingredient_list2 = request.GET.get('ingredient2')
 
         # __icontains : 대소문자 구분없이 필드값에 해당 query가 있는지 확인 가능
-        recipes = Recipe.objects.all().filter(Q(title__icontains=query) | Q(ingredients__icontains=query))\
-            .filter(Q(category__icontains=category_list))\
-            .exclude(Q(title__icontains=ingredient_list1) | Q(ingredients__icontains=ingredient_list1))\
+        recipes = Recipe.objects.all().filter(Q(title__icontains=query) | Q(ingredients__icontains=query)) \
+            .filter(Q(category__icontains=category_list)) \
+            .exclude(Q(title__icontains=ingredient_list1) | Q(ingredients__icontains=ingredient_list1)) \
             .exclude(Q(title__icontains=ingredient_list2) | Q(ingredients__icontains=ingredient_list2))
 
     paginator = Paginator(recipes, 12)
@@ -482,12 +487,14 @@ def show_CBF(request):
     # 2초안에 검색결과가 나오게 하고 안되면 2초를 더 줌
     try:
         sleep(2)
-        with open(BASE_DIR + '/output/CBF_Recommender/' + 'User_ID_' + str(user_id) + '_CBF_results.json', 'r', encoding='utf-8') as f:
+        with open(BASE_DIR + '/output/CBF_Recommender/' + 'User_ID_' + str(user_id) + '_CBF_results.json', 'r',
+                  encoding='utf-8') as f:
             recommender_json = json.load(f)
 
     except:
         sleep(2)
-        with open(BASE_DIR + '/output/CBF_Recommender/' + 'User_ID_' + str(user_id) + '_CBF_results.json', 'r', encoding='utf-8') as f:
+        with open(BASE_DIR + '/output/CBF_Recommender/' + 'User_ID_' + str(user_id) + '_CBF_results.json', 'r',
+                  encoding='utf-8') as f:
             recommender_json = json.load(f)
 
     # json에서 각 열을 list 형식으로 담아옴
@@ -509,12 +516,14 @@ def show_CF(request):
     # 2초안에 검색결과가 나오게 하고 안되면 2초를 더 줌
     try:
         sleep(2)
-        with open(BASE_DIR + '/output/CF_Recommender/' + 'User_ID_' + str(user_id) + '_CF_results.json', 'r', encoding='utf-8') as f:
+        with open(BASE_DIR + '/output/CF_Recommender/' + 'User_ID_' + str(user_id) + '_CF_results.json', 'r',
+                  encoding='utf-8') as f:
             recommender_json = json.load(f)
 
     except:
         sleep(2)
-        with open(BASE_DIR + '/output/CF_Recommender/' + 'User_ID_' + str(user_id) + '_CF_results.json', 'r', encoding='utf-8') as f:
+        with open(BASE_DIR + '/output/CF_Recommender/' + 'User_ID_' + str(user_id) + '_CF_results.json', 'r',
+                  encoding='utf-8') as f:
             recommender_json = json.load(f)
 
     # dataframe에서 각 열을 list 형식으로 담아옴
@@ -569,23 +578,20 @@ def make_dummy(request):
 
 # %%
 def recommend_by_algorithm(request):
-    user = request.session['user']
-    USER_ID = user
-    print('user: ', user)
-    print(type(user))
-    print('USER_ID: ', USER_ID)
-    print(1)
-    recommended_recipe_CBF = recommended_recipe_data_by_CBF(user_id=USER_ID)
-    recommended_recipe_CF = recommended_recipe_data_by_CF(user_id=USER_ID)
+    user_id = request.session['user']
+    recommended_recipe_CBF = recommended_recipe_data_by_CBF(user_id=user_id)
+    recommended_recipe_CF = recommended_recipe_data_by_CF(user_id=user_id)
 
     for i in range(len(recommended_recipe_CBF)):
         globals()['recipe_{}'.format(i + 1)] = dict(
             zip(list(recommended_recipe_CBF.columns), tuple(recommended_recipe_CBF.iloc[i])))
 
         # 카테고리명을 category 지역구분과 재료 구분으로 분리함
-        globals()['recipe_{}'.format(i + 1)]['category_region'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
+        globals()['recipe_{}'.format(i + 1)]['category_region'] = \
+        globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
         try:
-            globals()['recipe_{}'.format(i + 1)]['category_integredients'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
+            globals()['recipe_{}'.format(i + 1)]['category_integredients'] = \
+            globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
         except:
             globals()['recipe_{}'.format(i + 1)]['category_integredients'] = None
 
@@ -594,12 +600,15 @@ def recommend_by_algorithm(request):
         recipe_lists.append(globals()['recipe_{}'.format(i + 1)])
 
     for i in range(len(recommended_recipe_CF)):
-        globals()['recipe_{}'.format(i + 1)] = dict(zip(list(recommended_recipe_CF.columns), tuple(recommended_recipe_CF.iloc[i])))
+        globals()['recipe_{}'.format(i + 1)] = dict(
+            zip(list(recommended_recipe_CF.columns), tuple(recommended_recipe_CF.iloc[i])))
 
         # 카테고리명을 category 지역구분과 재료 구분으로 분리함
-        globals()['recipe_{}'.format(i + 1)]['category_region'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
+        globals()['recipe_{}'.format(i + 1)]['category_region'] = \
+        globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
         try:
-            globals()['recipe_{}'.format(i + 1)]['category_integredients'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
+            globals()['recipe_{}'.format(i + 1)]['category_integredients'] = \
+            globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
         except:
             globals()['recipe_{}'.format(i + 1)]['category_integredients'] = None
 
@@ -617,8 +626,8 @@ def recommend_by_algorithm(request):
     counts = dict()
 
     # 통계 섹션 - 레시피 수
-    recipeDF = pd.DataFrame(list(Recipe.objects.all().values()))
-    counts['recipe_count'] = recipeDF['recipe_id'].count()
+    recipe_df = pd.DataFrame(list(Recipe.objects.all().values()))
+    counts['recipe_count'] = recipe_df['recipe_id'].count()
 
     # 통계 섹션 - 유저 수
     user_all = UserInfo.objects.all()
@@ -634,8 +643,7 @@ def recommend_by_algorithm(request):
 
 # %%
 def main_login_q(request):
-    user = request.session['user']
-    user_id = user
+    user_id = request.session['user']
     recipes = None
 
     if 'q' in request.GET:
@@ -645,51 +653,57 @@ def main_login_q(request):
         ingredient_list2 = request.GET.get('ingredient2')
         # __icontains : 대소문자 구분없이 필드값에 해당 query가 있는지 확인 가능
         recipes = Recipe.objects.all().filter(Q(category__icontains=category_list)) \
-            .exclude(Q(title__icontains=ingredient_list1) | Q(ingredients__icontains=ingredient_list1))\
+            .exclude(Q(title__icontains=ingredient_list1) | Q(ingredients__icontains=ingredient_list1)) \
             .exclude(Q(title__icontains=ingredient_list2) | Q(ingredients__icontains=ingredient_list2))
 
     users_filter = pd.DataFrame(list(recipes))
 
-    #paginator = Paginator(Recipes, 12)
+    # paginator = Paginator(Recipes, 12)
     try:
         page = int(request.GET.get('page', '1'))
     except:
         page = 1
 
     # save Recipe_df to json file
-    users_filter.to_json(BASE_DIR+'/output/users_filter.json')
+    users_filter.to_json(BASE_DIR + '/output/users_filter.json')
 
     def recommend_by_filtered_algorithm(request, user_id):
         recommended_recipe_CBF = filtered_recipe_data_by_CBF(user_id)
         recommended_recipe_CF = filtered_recipe_data_by_CF(user_id)
 
         for i in range(len(recommended_recipe_CBF)):
-            globals()['recipe_{}'.format(i+1)]=dict(zip(list(recommended_recipe_CBF.columns), tuple(recommended_recipe_CBF.iloc[i])))
+            globals()['recipe_{}'.format(i + 1)] = dict(
+                zip(list(recommended_recipe_CBF.columns), tuple(recommended_recipe_CBF.iloc[i])))
 
-            # 카테고리명을 category 지역구분과 재료 구분으로 분리함
-            globals()['recipe_{}'.format(i + 1)]['category_region'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
+            # 카테고리명을 category 지역 구분과 재료 구분으로 분리함
+            globals()['recipe_{}'.format(i + 1)]['category_region'] = \
+            globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
             try:
-                globals()['recipe_{}'.format(i + 1)]['category_integredients'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
+                globals()['recipe_{}'.format(i + 1)]['category_integredients'] = \
+                globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
             except:
                 globals()['recipe_{}'.format(i + 1)]['category_integredients'] = None
 
         recipe_lists = []
         for i in range(len(recommended_recipe_CBF)):
-            recipe_lists.append(globals()['recipe_{}'.format(i+1)])
+            recipe_lists.append(globals()['recipe_{}'.format(i + 1)])
 
         for i in range(len(recommended_recipe_CF)):
-            globals()['recipe_{}'.format(i+1)]=dict(zip(list(recommended_recipe_CF.columns), tuple(recommended_recipe_CF.iloc[i])))
+            globals()['recipe_{}'.format(i + 1)] = dict(
+                zip(list(recommended_recipe_CF.columns), tuple(recommended_recipe_CF.iloc[i])))
 
             # 카테고리명을 category 지역구분과 재료 구분으로 분리함
-            globals()['recipe_{}'.format(i + 1)]['category_region'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
+            globals()['recipe_{}'.format(i + 1)]['category_region'] = \
+            globals()['recipe_{}'.format(i + 1)]['category'].split('<')[0].strip()
             try:
-                globals()['recipe_{}'.format(i + 1)]['category_integredients'] = globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
+                globals()['recipe_{}'.format(i + 1)]['category_integredients'] = \
+                globals()['recipe_{}'.format(i + 1)]['category'].split('<')[1].split(':')[1].replace('>', '').strip()
             except:
                 globals()['recipe_{}'.format(i + 1)]['category_integredients'] = None
 
         recipe_lists2 = []
         for i in range(len(recommended_recipe_CF)):
-            recipe_lists2.append(globals()['recipe_{}'.format(i+1)])
+            recipe_lists2.append(globals()['recipe_{}'.format(i + 1)])
 
         return recipe_lists, recipe_lists2
 
@@ -699,6 +713,6 @@ def main_login_q(request):
     # twitter
     today_twitter = today_tw()
 
-    recipe_lists, recipe_lists2 = recommend_by_filtered_algorithm(request,user_id)
+    recipe_lists, recipe_lists2 = recommend_by_filtered_algorithm(request, user_id)
     return render(request, 'main_login_q.html', {'recipe_lists': recipe_lists, 'recipe_lists2': recipe_lists2,
                                                  'today_yt': today_video, 'today_tw': today_twitter})

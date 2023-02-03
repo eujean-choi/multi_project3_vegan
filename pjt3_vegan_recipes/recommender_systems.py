@@ -85,7 +85,7 @@ def download_recipes():
     db_nm = 'vegan_table'
     # 데이터베이스 연결
     db_connection_path = f'mysql+mysqldb://{user_nm}:{user_pw}@{host_nm}:{host_address}/{db_nm}'
-    db_connection = create_engine(db_connection_path, encoding='utf-8')
+    db_connection = create_engine(db_connection_path)
     conn = db_connection.connect()
     # 데이터 로딩
     df = pd.read_sql_table(table_nm, con=conn)
@@ -612,13 +612,13 @@ def download_rating(table_nm='rating'):
 
 # %% 3
 # %% 콘텐츠 기반 필터링
-def CBF(User_ID, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
+def CBF(user_id, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
     CBF_df = None
     print(model_loc)
     print('CBF', 1)
 
     ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
-    user_rating_lst = ratings[ratings['user_id'] == User_ID]
+    user_rating_lst = ratings[ratings['user_id'] == user_id]
     user_rating_lst = user_rating_lst[user_rating_lst['stars'] >= 4]
     user_rating_lst = user_rating_lst['selected_recipe_name']
     user_rating_lst = user_rating_lst.tolist()
@@ -638,7 +638,7 @@ def CBF(User_ID, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
                           index=['recommended_recipe', 'ingredients_cosine_similarity', 'user_preferred_recipe']).T
     print('CBF', 4)
 
-    CBF_df.to_json(BASE_DIR + '/output/CBF_Recommender/' + 'User_ID_' + str(User_ID) + '_CBF_results.json')
+    CBF_df.to_json(BASE_DIR + '/output/CBF_Recommender/' + 'User_ID_' + str(user_id) + '_CBF_results.json')
 
 
 # %% 3-R2. CBF 추천 알고리즘 모델 파일 만들기
@@ -866,7 +866,7 @@ def make_CF_model():
 # %%
 def recommended_recipe_data_by_CBF(user_id):
     print('recommended_recipe_data_by_CBF: ', recommended_recipe_data_by_CBF)
-    CBF(User_ID=user_id)
+    CBF(user_id=user_id)
     print('user_id: ', user_id)
     print('BASE_DIR: ', BASE_DIR)
     recommender_df = pd.read_json(
