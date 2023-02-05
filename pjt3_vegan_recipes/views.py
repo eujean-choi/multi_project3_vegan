@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.db.models import Q
+from django.http import JsonResponse
+from elasticsearch_dsl import Search
 from datetime import timedelta
 
 from .recommender_systems import *
@@ -470,6 +472,16 @@ def search_result_q(request):
         recipes = paginator.page(paginator.num_pages)
 
     return render(request, 'search_result_q.html', {'query': query, 'Recipes': recipes})
+
+
+def search(request):
+    query = request.GET.get('q', '')
+    s = Search(index='recipes') \
+        .query("multi_match", query=query, type="bool_prefix", fields=["title"]) \
+        .source(['title', 'id'])[:5]
+    response = s.execute()
+    results = [hit.to_dict() for hit in response.hits]
+    return JsonResponse({'results': results})
 
 
 # %% 알고리즘 테스트 영역

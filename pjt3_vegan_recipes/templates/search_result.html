@@ -184,46 +184,30 @@
                         <option value="wheat">no Wheat..</option>
                         <option value="yogurt">no Yogurt..</option>
                     </select>
-                    <input type="text" placeholder="Search" name="q">
+                    <input type="text" placeholder="Search" name="q" id="search-input">
                     <button type="submit">Search</button>
+                    <div id="search-suggestions"></div>
+
                     <script>
-                        $(document).ready(function() {
-                            $('#search-input').on('input', function() {
-                                var input = $('#search-input').val();
-                                if (input.length == 0) {
-                                    $('#suggestions').empty();
-                                    return;
-                                }
-                                $.ajax({
-                                    url: 'http://localhost:9200/recipes/_search',
-                                    type: 'GET',
-                                    data: {
-                                        size: 5,
-                                        query: {
-                                            multi_match: {
-                                                query: input,
-                                                type: 'bool_prefix',
-                                                fields: ['title']
-                                            }
-                                        },
-                                        _source: ['title', 'id']
-                                    },
-                                    success: function(data) {
-                                        var results = data.results;
-                                        var suggestions = $('#suggestions');
-                                        suggestions.empty();
-                                        for (var i = 0; i < results.length; i++) {
-                                            var result = results[i];
-                                            var suggestion = $('<a href="#">' + result.title + '</a>');
-                                            suggestion.click(function() {
-                                                window.location.href = 'http://127.0.0.1:8000/recipe/' + result.id;
-                                            });
-                                            suggestions.append(suggestion);
-                                        }
-                                    }
-                                });
+                      const searchInput = document.querySelector('#search-input');
+                      const searchSuggestions = document.querySelector('#search-suggestions');
+
+                      searchInput.addEventListener('input', function() {
+                        const query = searchInput.value;
+                        fetch(`/search/?q=${query}`)
+                          .then(response => response.json())
+                          .then(data => {
+                            searchSuggestions.innerHTML = '';
+                            data.results.forEach(result => {
+                              const suggestion = document.createElement('div');
+                              suggestion.innerHTML = result.title;
+                              suggestion.addEventListener('click', function() {
+                                window.location.href = `/recipe/${result.id}`;
+                              });
+                              searchSuggestions.appendChild(suggestion);
                             });
-                        });
+                          });
+                      });
                     </script>
                 </form>
             </div>
