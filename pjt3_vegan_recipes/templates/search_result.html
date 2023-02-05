@@ -184,15 +184,21 @@
                         <option value="wheat">no Wheat..</option>
                         <option value="yogurt">no Yogurt..</option>
                     </select>
-                    <input type="text" placeholder="Search" name="q" id="search-input">
+                    <input type="text" placeholder="Search" name="q" id="search-box">
                     <button type="submit">Search</button>
                     <div id="search-suggestions"></div>
 
-                    <script>
-                      const searchInput = document.querySelector('#search-input');
-                      const searchSuggestions = document.querySelector('#search-suggestions');
+                    <style>
+                        #search-suggestions { position: absolute; background-color: white; width: 1000; right: 100; z-index: 1; }
+                        #search-suggestions div { padding: 10px; }
+                        #search-suggestions div:hover { background-color: lightgray; cursor: pointer; }
+                    </style>
 
-                      searchInput.addEventListener('input', function() {
+                    <script>
+                        const searchInput = document.querySelector('#search-box');
+                        const searchSuggestions = document.querySelector('#search-suggestions');
+
+                        searchInput.addEventListener('input', function() {
                         const query = searchInput.value;
                         fetch(`/search/?q=${query}`)
                           .then(response => response.json())
@@ -207,7 +213,7 @@
                               searchSuggestions.appendChild(suggestion);
                             });
                           });
-                      });
+                        });
                     </script>
                 </form>
             </div>
