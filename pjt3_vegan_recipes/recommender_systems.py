@@ -16,7 +16,6 @@ from tensorflow.keras.regularizers import l2
 from tensorflow.keras.optimizers import SGD, Adam, Adamax
 
 import nltk
-nltk.download('wordnet')
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
@@ -31,11 +30,11 @@ import matplotlib.cm as cm
 import plotly.express as px
 from plotly.offline import plot
 
+nltk.download('wordnet')
 plt.rcParams.update({'font.family': 'AppleGothic'})
 
 
-# 텍스트에 포함된 특수문자 제거 함수
-# 단 &는 재료의 최소단위를 구분짓는 경계로 사용할 것이기 때문에 제외
+# 텍스트에 포함된 특수문자 제거 함수 (단, &는 재료의 최소 단위를 구분짓는 경계이므로 제외)
 def remove_special_char(read_data):
     text = re.sub('[-=+,#/\?:^.@*\"※~%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》|\u0080-\uffef]', ' ', read_data)
     return text
@@ -65,33 +64,28 @@ def preprocess_text(read_data):
 
 
 # %% 기본 설정값
-# 클러스터링 분석에 사용될 재료를 빈도수로 몇개를 택할 것인가?
-num_selected_feature = 100
-# 클러스터의 수
-num_cluster = 6
-# 더미 유저 수
-num_dummy_user = 20000
-# 더미 레시피 수
-num_dummy_recipe = 200
-# 추천 레시피 수
-top_n = 20
+
+num_selected_feature = 100  # 클러스터링 분석에 사용될 재료를 선택할 빈도수
+num_cluster = 6             # 클러스터의 수
+num_dummy_user = 20000      # 더미 유저 수
+num_dummy_recipe = 200      # 더미 레시피 수
+top_n = 20                  # 추천 레시피 수
 
 
-# %%
-# 1.클러스터링
+# %% 1.클러스터링
 
 # %% 1-1. 데이터 셋 불러오기
 # 파이썬에서 MySql 연결을 위한 함수
 def download_recipes():
     table_nm = 'recipe'
     user_nm = 'root'
-    user_pw = 't0101'
-    host_nm = '35.79.107.247'
+    user_pw = 't01dbpw'
+    host_nm = 'localhost'
     host_address = '3306'
-    db_nm = 'team01'
+    db_nm = 'vegan_table'
     # 데이터베이스 연결
     db_connection_path = f'mysql+mysqldb://{user_nm}:{user_pw}@{host_nm}:{host_address}/{db_nm}'
-    db_connection = create_engine(db_connection_path, encoding='utf-8')
+    db_connection = create_engine(db_connection_path)
     conn = db_connection.connect()
     # 데이터 로딩
     df = pd.read_sql_table(table_nm, con=conn)
@@ -101,10 +95,10 @@ def download_recipes():
 
 def upload_dataset(df, table_nm):
     user_nm = 'root'
-    user_pw = 't0101'
-    host_nm = '35.79.107.247'
+    user_pw = 't01dbpw'
+    host_nm = 'localhost'
     host_address = '3306'
-    db_nm = 'team01'
+    db_nm = 'vegan_table'
     # 데이터베이스 연결
     db_connection_path = f'mysql+mysqldb://{user_nm}:{user_pw}@{host_nm}:{host_address}/{db_nm}'
     db_connection = create_engine(db_connection_path, encoding='utf-8')
@@ -148,7 +142,7 @@ def C2_get_preprocessed_recipe(df):
     recipe_N_ingredients_2['ingredients'] = recipe_N_ingredients_2['ingredients'].apply(lambda x: x.lower())
 
     # 요리 측량 단위 레퍼런스: https://en.wikibooks.org/wiki/Cookbook:Units_of_measurement
-    # 요리 측정 단위 단어들을 불용어로 지정하기 위해 다음과 같은 단어 리스트들을 지정해둔다
+    # 요리 측정 단위 단어들을 불용어로 지정하기 위해 다음과 같은 단어 리스트로 지정
     ingredient_stopwords = ['fresh', 'optional', 'sliced', 'cubes', 'hot', 'frozen', 'juiced', 'syrup', 'taste',
                             'unsweetened', 'soft', 'removed', 'plant', 'based', 'choice', 'tspground', 'turmeric',
                             'pinchground', 'black', 'canned', 'granulated', 'vegan', 'pure', 'extract', 'brown',
@@ -554,7 +548,6 @@ def make_dummy_5stars():
     # pd.DataFrame(random_numbers).sum(axis=1)
 
     random_reviews.to_csv(BASE_DIR + '/output/dummy_data.csv')
-
     print('더미 데이터 제작이 완료되었습니다')
     return random_reviews
 
@@ -593,7 +586,7 @@ def user_for_db():
         recipe_ids = [selected_recipes_dict[i] for i in ratings['selected_recipe_id']]
         ratings['selected_recipe_name'] = recipe_ids
         ratings.drop('selected_recipe_id', axis=1, inplace=True)
-        ratings.to_json(BASE_DIR + '/output/user_dummy_data')
+        ratings.to_json(BASE_DIR + '/output/user_dummy_data.json')
         print('로컬에서 유저 데이터 가공이 완료되었습니다')
 
     except:
@@ -603,40 +596,38 @@ def user_for_db():
 # %% 2-3. DB에서 유저 데이터 불러오기
 def download_rating(table_nm='rating'):
     user_nm = 'root'
-    user_pw = 't0101'
-    host_nm = '35.79.107.247'
+    user_pw = 't01dbpw'
+    host_nm = 'localhost'
     host_address = '3306'
-    db_nm = 'team01'
+    db_nm = 'vegan_table'
     # 데이터베이스 연결
     db_connection_path = f'mysql+mysqldb://{user_nm}:{user_pw}@{host_nm}:{host_address}/{db_nm}'
     db_connection = create_engine(db_connection_path, encoding='utf-8')
     conn = db_connection.connect()
     # 데이터 로딩
     df = pd.read_sql_table(table_nm, con=conn)
-    df.to_json(BASE_DIR + '/output/user_dummy_data')
+    df.to_json(BASE_DIR + '/output/user_dummy_data.json')
     print('DB로부터 유저 데이터를 다운로드 완료하였습니다')
 
 
 # %% 3
 # %% 콘텐츠 기반 필터링
-def CBF(User_ID, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
+def CBF(user_id, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
     CBF_df = None
     print(model_loc)
-    print('C:\workspaces\project3\multi_project3_vegan\pjt3_vegan_recipes\output\CBF_Recommender\CBF_Model')
     print('CBF', 1)
-    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data')
-    user_rating_lst = ratings[ratings['user_id'] == User_ID]
+
+    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
+    user_rating_lst = ratings[ratings['user_id'] == user_id]
     user_rating_lst = user_rating_lst[user_rating_lst['stars'] >= 4]
     user_rating_lst = user_rating_lst['selected_recipe_name']
     user_rating_lst = user_rating_lst.tolist()
-
     print('CBF', 2)
 
     # 모델 불러오기
     model = doc2vec.Doc2Vec.load(model_loc)
     # 임베딩 벡터 평균치로써 유저가 가장 좋아할만한 레시피 10개를 추천한다
     recommend_result = model.dv.most_similar(user_rating_lst, topn=top_n)
-
     print('CBF', 3)
 
     # 이때 데이터는 (레시피명,유사도) 튜플 형태로 반환된다
@@ -645,16 +636,14 @@ def CBF(User_ID, model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
     similarity_score = [recommend_result[i][1] for i in range(len(recommend_result))]
     CBF_df = pd.DataFrame([recipe_name, similarity_score, user_rating_lst],
                           index=['recommended_recipe', 'ingredients_cosine_similarity', 'user_preferred_recipe']).T
-
     print('CBF', 4)
 
-    CBF_df.to_json(BASE_DIR + '/output/CBF_Recommender/' + 'User_ID_' + str(User_ID) + '_CBF_results.json')
+    CBF_df.to_json(BASE_DIR + '/output/CBF_Recommender/' + 'User_ID_' + str(user_id) + '_CBF_results.json')
 
 
 # %% 3-R2. CBF 추천 알고리즘 모델 파일 만들기
 # 절대 경로 /각자 컴퓨터에 맞게 수정 부탁드립니다
 def make_CBF_model():
-
     df = download_recipes()
     tokened_df, recipe_N_ingredients_2 = C2_get_preprocessed_recipe(df)
     # 레시피-재료 document를 doc2vec 하여 레시피간 재료의 유사도를 고려하는 모델 생성하기
@@ -680,7 +669,7 @@ def make_CBF_model():
 # %%
 def metric_CBF(model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
     total_similarity_score = []
-    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data')
+    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
     for User_ID in range(1, 20001):
         print(User_ID)
         user_rating_lst = ratings[ratings['user_id'] == User_ID]
@@ -705,7 +694,7 @@ def metric_CBF(model_loc=BASE_DIR + '/output/CBF_Recommender/CBF_Model'):
         similarity_score_df = pd.DataFrame(total_similarity_score)
         similarity_score_df.loc['average'] = similarity_score_df.mean()
         similarity_score_df.loc['std'] = np.sqrt(similarity_score_df.var())
-        similarity_score_df.to_json(BASE_DIR + '/output/CBF_Recommender/CBF_Metrics')
+        similarity_score_df.to_json(BASE_DIR + '/output/CBF_Recommender/CBF_Metrics.json')
         print('탐색이 완료되었습니다')
 
 
@@ -724,7 +713,7 @@ def CF1_spliting_train_test(ratings, TRAIN_SIZE=0.75):
 # %% 4-2.
 def CF2_get_unseen_recipes(user_id):
     user_id = 20
-    user_DB = pd.read_json(BASE_DIR + '/output/user_dummy_data')
+    user_DB = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
     selected_recipe_names = user_DB['selected_recipe_name'].unique().tolist()
     selected_recipe_ranges = list(range(len(selected_recipe_names)))
     selected_recipes_dict = dict(zip(selected_recipe_names, selected_recipe_ranges))
@@ -746,20 +735,18 @@ def RMSE(y_true, y_pred):
     return tf.sqrt(tf.reduce_mean(tf.square(y_true - y_pred)))
 
 
-# %% 4-R1 협업 필터링 적용
-# 특정 유저의 좋아요 기록을 불러오기
+# %% 4-R1 협업 필터링 적용: 특정 유저의 좋아요 기록을 불러오기
 def CF(user_id, model_loc=BASE_DIR + "/output/CF_Recommender/CF_Model.h5"):
     def RMSE(y_true, y_pred):
         return tf.sqrt(tf.reduce_mean(tf.square(y_true - y_pred)))
 
     # 200개로 추려진 요리 목록을 딕셔너리 형태로 담기
-    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data')
+    ratings = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
     selected_recipe_names = ratings['selected_recipe_name'].unique().tolist()
     selected_recipe_ranges = list(range(len(selected_recipe_names)))
     selected_recipes_dict = dict(zip(selected_recipe_names, selected_recipe_ranges))
 
-    # 유저들의 평가 데이터 불러오기
-    # 그중 4점 이상 평가한 것으로 추린다
+    # 유저들의 평가 데이터 불러오기 + 그 중 4점 이상 평가한 것으로 추린다
     user_rating_name = ratings[ratings['user_id'] == user_id]
     user_rating_name['stars'] = user_rating_name['stars'].apply(lambda x: int(x))
     user_rating_name = user_rating_name[user_rating_name['stars'] >= 4]
@@ -801,7 +788,7 @@ def CF(user_id, model_loc=BASE_DIR + "/output/CF_Recommender/CF_Model.h5"):
 
 # %% 4-R2. 딥러닝 모델 설계 및 학습 & 저장
 def make_CF_model():
-    user_DB = pd.read_json(BASE_DIR + '/output/user_dummy_data')
+    user_DB = pd.read_json(BASE_DIR + '/output/user_dummy_data.json')
 
     selected_recipe_names = user_DB['selected_recipe_name'].unique().tolist()
     selected_recipe_ranges = list(range(len(selected_recipe_names)))
@@ -879,7 +866,7 @@ def make_CF_model():
 # %%
 def recommended_recipe_data_by_CBF(user_id):
     print('recommended_recipe_data_by_CBF: ', recommended_recipe_data_by_CBF)
-    CBF(User_ID=user_id)
+    CBF(user_id=user_id)
     print('user_id: ', user_id)
     print('BASE_DIR: ', BASE_DIR)
     recommender_df = pd.read_json(
@@ -914,8 +901,7 @@ def recommended_recipe_data_by_CF(user_id):
     return matched_recipes
 
 
-# %% 5. 필터링된 추천 알고리즘
-# %%
+# %% 5. 필터링 된 추천 알고리즘
 def get_filter_data():
     # 인덱스가 숫자임에도 문자열로 인식되어 순서가 엉망이길래 정렬해줌
     def str2int(x):

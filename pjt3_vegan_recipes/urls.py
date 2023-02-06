@@ -36,6 +36,7 @@ urlpatterns = [
     path('pin_recipe/<int:id>', views.pin_recipe, name='pin_recipe'),
     path('search_result/', views.search_result, name='search_result'),
     path('search_result_q/', views.search_result_q, name='search_result_q'),
+    path('search/', views.search, name='search'),
     path('about_us/', views.about_us, name='about_us'),
     path('algorithm/', views.algorithm, name='algorithm'),
     path('rate/<int:id>', views.rate, name='rate'),

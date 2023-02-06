@@ -7,11 +7,12 @@
     <meta name="keywords" content="Yoga, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Fruit Fruit</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../static/img/logo/Fruit_Fruit_2_clear.png" type="image/x-icon">
-    <link rel="icon" href="../static/img/logo/Fruit_Fruit_2_clear.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../static/img/logo/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../static/img/logo/favicon.ico" type="image/x-icon">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap" rel="stylesheet">
@@ -46,7 +47,7 @@
     <header class="header-section-other">
         <div class="container-fluid hero-search set-bg" data-setbg="../../static/img/search-bg.jpg">
             <div class="logo" style="z-index: 2;">
-                <a href="/"><img src="../../static/img/logo/Fruit_Fruit_2_clear.png" alt=""></a>
+                <a href="/main_login/"><img src="../../static/img/logo/Fruit_Fruit_2_clear.png" alt=""></a>
             </div>
             <div class="nav-menu">
                 <nav class="main-menu mobile-menu">
@@ -183,8 +184,44 @@
                         <option value="wheat">no Wheat..</option>
                         <option value="yogurt">no Yogurt..</option>
                     </select>
-                    <input type="text" placeholder="Search" name="q">
+                    <input type="text" placeholder="Search" name="q" id="search-box">
                     <button type="submit">Search</button>
+                    <div id="search-suggestions"></div>
+
+                    <style>
+                        #search-suggestions { position: absolute; background-color: white; z-index: 1; }
+                        #search-suggestions div { padding: 10px; }
+                        #search-suggestions div:hover { background-color: lightgray; cursor: pointer; }
+                    </style>
+
+                    <script>
+                        const searchInput = document.querySelector('#search-box');
+                        const searchSuggestions = document.querySelector('#search-suggestions');
+
+                        searchInput.addEventListener('keyup', function() {
+                            const searchBoxLeft = searchInput.offsetLeft;
+                            searchSuggestions.style.left = searchBoxLeft + 'px';
+                            searchSuggestions.style.top = searchInput.offsetTop + searchInput.offsetHeight + 'px';
+                            searchSuggestions.style.width = searchInput.offsetWidth + 'px';
+                        });
+
+                        searchInput.addEventListener('input', function() {
+                            const query = searchInput.value;
+                            fetch(`/search/?q=${query}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                searchSuggestions.innerHTML = '';
+                                data.results.forEach(result => {
+                                    const suggestion = document.createElement('div');
+                                    suggestion.innerHTML = result.title;
+                                    suggestion.addEventListener('click', function() {
+                                        window.location.href = `/recipe/${result.id}`;
+                                    });
+                                    searchSuggestions.appendChild(suggestion);
+                                });
+                            });
+                        });
+                    </script>
                 </form>
             </div>
         </div>
@@ -211,7 +248,7 @@
                                 {% if recipe.image %}
                                 <img class="card-img-top embed-responsive-item" src="{{ recipe.image }}" width="" alt="{{ recipe }}" />
                                 {% else %}
-                                <img class="card-img-top embed-responsive-item" src="../../static/img/logo/Fruit_Fruit_2_clear.png">
+                                <img class="card-img-top embed-responsive-item" src="../../static/img/logo/notfound_small.png">
                                 {% endif %}
                             </a>
                         </div>
