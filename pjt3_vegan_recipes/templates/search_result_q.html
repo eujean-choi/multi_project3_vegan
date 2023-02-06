@@ -184,8 +184,44 @@
                         <option value="wheat">no Wheat..</option>
                         <option value="yogurt">no Yogurt..</option>
                     </select>
-                    <input type="text" placeholder="Search" name="q">
+                    <input type="text" placeholder="Search" name="q" id="search-box">
                     <button type="submit">Search</button>
+                    <div id="search-suggestions"></div>
+
+                    <style>
+                        #search-suggestions { position: absolute; background-color: white; z-index: 1; }
+                        #search-suggestions div { padding: 10px; }
+                        #search-suggestions div:hover { background-color: lightgray; cursor: pointer; }
+                    </style>
+
+                    <script>
+                        const searchInput = document.querySelector('#search-box');
+                        const searchSuggestions = document.querySelector('#search-suggestions');
+
+                        searchInput.addEventListener('keyup', function() {
+                            const searchBoxLeft = searchInput.offsetLeft;
+                            searchSuggestions.style.left = searchBoxLeft + 'px';
+                            searchSuggestions.style.top = searchInput.offsetTop + searchInput.offsetHeight + 'px';
+                            searchSuggestions.style.width = searchInput.offsetWidth + 'px';
+                        });
+
+                        searchInput.addEventListener('input', function() {
+                            const query = searchInput.value;
+                            fetch(`/search/?q=${query}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                searchSuggestions.innerHTML = '';
+                                data.results.forEach(result => {
+                                    const suggestion = document.createElement('div');
+                                    suggestion.innerHTML = result.title;
+                                    suggestion.addEventListener('click', function() {
+                                        window.location.href = `/recipe/${result.id}`;
+                                    });
+                                    searchSuggestions.appendChild(suggestion);
+                                });
+                            });
+                        });
+                    </script>
                 </form>
             </div>
         </div>
